@@ -5,8 +5,7 @@
 \title{Compute hypothesis tests for table1::table1()}
 \usage{
 table1_pvalue(
-  x,
-  variable,
+  ...,
   digits = 3,
   test_numeric_2_levels = stats::t.test,
   test_numeric_more_than_2_levels = function(data, formula) {
@@ -14,14 +13,11 @@ table1_pvalue(
     stats::anova(stats::lm(formula = formula, data = data))$`Pr(>F)`[1])
  },
   test_categorical_2_levels = stats::chisq.test,
-  test_categorical_more_than_2_levels = stats::chisq.test,
-  ...
+  test_categorical_more_than_2_levels = stats::chisq.test
 )
 }
 \arguments{
-\item{x}{Passed by \code{table1::table1()} - leave empty.}
-
-\item{variable}{Passed by \code{table1::table1()} - leave empty.}
+\item{...}{Other arguments: not currently used.}
 
 \item{digits}{\code{numeric} scalar: number of digits to use when formatting
 p-values}
@@ -46,7 +42,9 @@ hypothesis test using a formula (variable ~ group) where group has more than
 two levels and \code{variable} is categorical. The default is \code{chisq.test},
 alternatives include: \code{fisher.test}.}
 
-\item{...}{Other arguments: not currently used.}
+\item{x}{Passed by \code{table1::table1()} - leave empty.}
+
+\item{variable}{Passed by \code{table1::table1()} - leave empty.}
 }
 \value{
 A \code{numeric} scalar containing the p-value from the specified

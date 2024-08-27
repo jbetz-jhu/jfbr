@@ -4,12 +4,19 @@
 \name{jfbr-package}
 \alias{jfbr}
 \alias{jfbr-package}
-\title{jfbr: What the Package Does (One Line, Title Case)}
+\title{jfbr: Miscellaneous R Workflow Functions}
 \description{
-What the package does (one paragraph).
+A suite of miscellaneous R functions for an analysis workflow.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://jbetz-jhu.github.io/jfbr/}
+}
+
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Josh Betz \email{jbetz@jhu.edu} (\href{https://orcid.org/0000-0003-4488-9799}{ORCID})
 
 }
 \keyword{internal}

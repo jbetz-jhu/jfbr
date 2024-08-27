@@ -47,7 +47,8 @@ table1_pvalue <-
       },
     test_categorical_2_levels = stats::chisq.test,
     test_categorical_more_than_2_levels = stats::chisq.test,
-    ...) {
+    ...
+  ) {
 
     group_labels <- names(x)
 

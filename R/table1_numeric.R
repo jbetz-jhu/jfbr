@@ -69,7 +69,7 @@ table1_numeric <-
 
       results <-
         c(results,
-          `Meadian [IQR]` =
+          `Median [IQR]` =
             sprintf("%s (%s)",
                     round(x = quantile(x, prob = 0.5, na.rm = na.rm),
                           digits = digits),
