@@ -1,6 +1,6 @@
 set.seed(12345)
 
-n_obs <- 1000
+n_obs <- 200
 
 jfbr_test <-
   data.frame(

@@ -1,3 +1,4 @@
+### table1_pvalue: Two-category X, Continuous Y ################################
 test_that(
   desc = "table1_pvalue works in isolation: Two-level X, Continuous Y",
   code = {
@@ -13,7 +14,7 @@ test_that(
               "overall" = jfbr_test$continuous
             ),
           variable = "binary_factor",
-          digits = 3,
+          digits = 3
         )
     )
 
@@ -40,8 +41,11 @@ test_that(
 )
 
 
+
+
+### table1_pvalue: Multi-category X, Continuous Y ##############################
 test_that(
-  desc = "table1_pvalue works in isolation: Multi-level X, Continuous Y",
+  desc = "table1_pvalue works in isolation: Multi-category X, Continuous Y",
   code = {
     expect_no_condition(
       object =
@@ -84,10 +88,9 @@ test_that(
 
 
 
-
-
+### table1_pvalue: Two category X, Multi-category Y ############################
 test_that(
-  desc = "table1_pvalue works in isolation: Two-level X, Categorical Y",
+  desc = "table1_pvalue works in isolation: Two-level X, Multi-category Y",
   code = {
     expect_no_condition(
       object =
@@ -128,8 +131,11 @@ test_that(
 )
 
 
+
+
+### table1_pvalue: Multi-category X, Multi-category Y ##########################
 test_that(
-  desc = "table1_pvalue works in isolation: Multi-level X, Categorical Y",
+  desc = "table1_pvalue works in isolation: Multi-category X, Multi-category Y",
   code = {
     expect_no_condition(
       object =
@@ -169,16 +175,51 @@ test_that(
   }
 )
 
+
+### table1_pvalue + table1() ###################################################
 test_that(
   desc = "table1_pvalue works with table1::table1()",
   code = {
+    # No grouping variable
+    expect_error(
+      object =
+        table1::table1(
+          x = ~ numbers + continuous + binary + ordered,
+          data = jfbr_test,
+          overall = FALSE,
+          extra.col =
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(x = x, variable = variable))
+        ),
+      regexp = "Table has no columns"
+    )
+
     expect_no_error(
       object =
         table1::table1(
-          x = ~ numbers + continuous + binary + ordered | categorical,
+          x = ~ numbers + continuous + binary + ordered | binary_factor,
           data = jfbr_test,
           extra.col =
-            list("p-value" = table1_pvalue)
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(x = x, variable = variable))
+        )
+    )
+
+    expect_no_error(
+      object =
+        table1::table1(
+          x = ~ numbers + continuous + binary + ordered | binary_factor,
+          data = jfbr_test,
+          extra.col =
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(
+                x = x, variable = variable,
+                test_numeric_2_levels = wilcox.test,
+                test_numeric_more_than_2_levels = kruskal.test,
+                test_categorical_2_levels = chisq.test,
+                test_categorical_more_than_2_levels = chisq.test
+              )
+            )
         )
     )
 
@@ -189,7 +230,15 @@ test_that(
           data = jfbr_test,
           overall = FALSE,
           extra.col =
-            list("p-value" = table1_pvalue)
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(
+                x = x, variable = variable,
+                test_numeric_2_levels = wilcox.test,
+                test_numeric_more_than_2_levels = kruskal.test,
+                test_categorical_2_levels = chisq.test,
+                test_categorical_more_than_2_levels = chisq.test
+              )
+            )
         )
     )
   }

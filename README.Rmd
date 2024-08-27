@@ -61,97 +61,118 @@ my_data <-
 ```{r Load-Packages}
 library(jfbr)
 library(table1)
+library(knitr)
 ```
 
-The default for `table1::table1()` is to produce Mean (SD) and Median [Min, Max].
+The default for `table1::table1()` is to produce Mean (SD) and Median [Min, Max]. Note: saving the result of `table1::table1()` and using `knitr::kable()`is only necessary when HTML output is not possible:
 
 ```{r table1-Defaults}
 # table1() defaults
-table1(
-  x = ~ continuous + numbers | binary_factor,
-  data = my_data
-)
+my_table <-
+  table1(
+    x = ~ continuous + numbers | binary_factor,
+    data = my_data
+  )
+
+kable(my_table)
 ```
 
 Using the argument `render.continuous = table1_numeric` adds Median [IQR] and [Max, Min]:
 
 ```{r table1-table1_numeric-Default}
-table1(
-  x = ~ continuous + numbers | binary_factor,
-  data = my_data,
-  render.continuous = table1_numeric
-)
+my_table <-
+  table1(
+    x = ~ continuous + numbers | binary_factor,
+    data = my_data,
+    render.continuous = table1_numeric
+  )
+
+kable(my_table)
 ```
 
 The arguments `mean_sd`, `median_iqr`, and `range` control which summaries are computed. Quantiles can be added optionally with the `quantiles` argment:
 
 ```{r table1-table1_numeric}
 # Only Mean/SD
-table1(
-  x = ~ continuous + numbers | binary_factor,
-  data = my_data,
-  render.continuous = 
-    function(x)
-      table1_numeric(
-        x = x,
-        mean_sd = TRUE, median_iqr = FALSE, range = FALSE,
-        quantiles = NULL
-      )
-)
+my_table <-
+  table1(
+    x = ~ continuous + numbers | binary_factor,
+    data = my_data,
+    render.continuous = 
+      function(x)
+        table1_numeric(
+          x = x,
+          mean_sd = TRUE, median_iqr = FALSE, range = FALSE,
+          quantiles = NULL
+        )
+  )
+
+kable(my_table)
 
 # Only Mean/SD, 5% and 95% Quantiles
-table1(
-  x = ~ continuous + numbers | binary_factor,
-  data = my_data,
-  render.continuous = 
-    function(x)
-      table1_numeric(
-        x = x,
-        mean_sd = TRUE, median_iqr = FALSE, range = FALSE,
-        quantiles = c(0.05, 0.95)
-      )
-)
+my_table <-
+  table1(
+    x = ~ continuous + numbers | binary_factor,
+    data = my_data,
+    render.continuous = 
+      function(x)
+        table1_numeric(
+          x = x,
+          mean_sd = TRUE, median_iqr = FALSE, range = FALSE,
+          quantiles = c(0.05, 0.95)
+        )
+  )
+
+kable(my_table)
 ```
 
 
 Hypothesis tests can be added to `table1` using the `extra.col` argument: there is a worked example of including `t.test` and `chisq.test` in the [table1 documentation](https://cran.r-project.org/web/packages/table1/vignettes/table1-examples.html#example-a-column-of-p-values). The `table1_pvalue` function is a convenience function that allows users to supply their own tests to be computed in `table1`. The defaults include `t.test` and ANOVA omnibus test (via a `lm` and `anova` wrapper) for continuous variables, and `chisq.test` for categorical variables:
 
 ```{r table1-pvalues-defaults}
-table1::table1(
-  x = ~ numbers + continuous + binary + ordered | binary_factor,
-  data = my_data,
-  overall = FALSE,
-  extra.col =
-    list("p-value" = table1_pvalue)
-)
+my_table <-
+  table1::table1(
+    x = ~ numbers + continuous + binary + ordered | binary_factor,
+    data = my_data,
+    overall = FALSE,
+    extra.col =
+      list("p-value" = table1_pvalue)
+  )
 
+kable(my_table)
 
-table1::table1(
-  x = ~ numbers + continuous + binary + ordered | categorical,
-  data = my_data,
-  overall = FALSE,
-  extra.col =
-    list("p-value" = table1_pvalue)
-)
+my_table <-
+  table1::table1(
+    x = ~ numbers + continuous + binary + ordered | categorical,
+    data = my_data,
+    overall = FALSE,
+    extra.col =
+      list("p-value" = table1_pvalue)
+  )
+
+kable(my_table)
 ```
 
 Any function that returns an element `p.value` can be passed as an argument, allowing users to customize which tests are performed:
 
 ```{r table1-pvalues-custom}
-table1::table1(
-  x = ~ numbers + continuous + binary + ordered | binary_factor,
-  data = my_data,
-  overall = FALSE,
-  extra.col =
-    list("p-value" =
-           function(x, value) table1_pvalue(
-             x = x,
-             variable = variable,
-             test_numeric_2_levels = wilcox.test,
-             test_numeric_more_than_2_levels = kruskal.test,
-             test_categorical_2_levels = fisher.test,
-             test_categorical_more_than_2_levels = fisher.test
-           )
-         )
-)
+my_table <-
+  table1::table1(
+    x = ~ numbers + continuous + binary + ordered | binary_factor,
+    data = my_data,
+    overall = FALSE,
+    extra.col =
+      list("p-value" =
+             function(x, value) table1_pvalue(
+               x = x,
+               variable = variable,
+               test_numeric_2_levels = wilcox.test,
+               test_numeric_more_than_2_levels = kruskal.test,
+               test_categorical_2_levels = fisher.test,
+               test_categorical_more_than_2_levels = fisher.test
+             )
+      )
+  )
+
+kable(my_table)
 ```

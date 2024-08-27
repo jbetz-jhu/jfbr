@@ -23,7 +23,9 @@ You can install the development version of jfbr from
 devtools::install_github("jbetz-jhu/jfbr")
 ```
 
-## Examples: Tabulation
+## Examples:
+
+### Tabulation
 
 Convenience functions have been added for the `table1::table1()`
 function to make it easier to do different summaries and add hypothesis
@@ -61,6 +63,8 @@ library(table1)
 library(knitr)
 ```
 
+#### `table1()`: Default
+
 The default for `table1::table1()` is to produce Mean (SD) and Median
 \[Min, Max\]. Note: saving the result of `table1::table1()` and using
 `knitr::kable()`is only necessary when HTML output is not possible:
@@ -85,6 +89,8 @@ kable(my_table)
 | numbers             |                          |                          |                          |
 | Mean (SD)           | 492 (289)                | 509 (289)                | 501 (289)                |
 | Median \[Min, Max\] | 490 \[5.00, 1000\]       | 509 \[1.00, 999\]        | 501 \[1.00, 1000\]       |
+
+#### `table1()` + `table1_numeric`
 
 Using the argument `render.continuous = table1_numeric` adds Median
 \[IQR\] and \[Max, Min\]:
@@ -170,6 +176,8 @@ kable(my_table)
 | numbers    |                 |                 |                |
 | Mean (SD)  | 492.08 (289.16) | 509.02 (288.52) | 500.5 (288.82) |
 | 5%, 95%    | 52.3, 948.9     | 50.6, 950.2     | 50.95, 950.05  |
+
+#### `table1()` + `table1_pvalue`
 
 Hypothesis tests can be added to `table1` using the `extra.col`
 argument: there is a worked example of including `t.test` and
