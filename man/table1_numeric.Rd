@@ -10,7 +10,8 @@ table1_numeric(
   median_iqr = TRUE,
   range = TRUE,
   quantiles = NULL,
-  na.rm = FALSE,
+  completeness = TRUE,
+  na.rm = TRUE,
   quantile_type = 7,
   digits = 2
 )
@@ -26,6 +27,8 @@ table1_numeric(
 
 \item{quantiles}{A \code{vector} of \code{numeric} values: Quantiles to
 compute}
+
+\item{completeness}{A \code{logical} scalar: Compute completeness?}
 
 \item{na.rm}{\code{logical} scalar: Remove \code{NA} values?}
 
