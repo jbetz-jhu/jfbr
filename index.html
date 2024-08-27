@@ -59,8 +59,11 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jbetz-jhu/jfbr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="examples-tabulation">Examples: Tabulation<a class="anchor" aria-label="anchor" href="#examples-tabulation"></a>
+<h2 id="examples">Examples:<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
+<div class="section level3">
+<h3 id="tabulation">Tabulation<a class="anchor" aria-label="anchor" href="#tabulation"></a>
+</h3>
 <p>Convenience functions have been added for the <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> function to make it easier to do different summaries and add hypothesis testing.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create Example Data:</span></span>
@@ -90,6 +93,10 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     units, units&lt;-</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="table1-default">
+<code>table1()</code>: Default<a class="anchor" aria-label="anchor" href="#table1-default"></a>
+</h4>
 <p>The default for <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> is to produce Mean (SD) and Median [Min, Max]. Note: saving the result of <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> and using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>is only necessary when HTML output is not possible:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># table1() defaults</span></span>
@@ -158,6 +165,12 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level4">
+<h4 id="table1--table1_numeric">
+<code>table1()</code> + <code>table1_numeric</code>
+<a class="anchor" aria-label="anchor" href="#table1--table1_numeric"></a>
+</h4>
 <p>Using the argument <code>render.continuous = table1_numeric</code> adds Median [IQR] and [Max, Min]:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
@@ -358,6 +371,12 @@
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level4">
+<h4 id="table1--table1_pvalue">
+<code>table1()</code> + <code>table1_pvalue</code>
+<a class="anchor" aria-label="anchor" href="#table1--table1_pvalue"></a>
+</h4>
 <p>Hypothesis tests can be added to <code>table1</code> using the <code>extra.col</code> argument: there is a worked example of including <code>t.test</code> and <code>chisq.test</code> in the <a href="https://cran.r-project.org/web/packages/table1/vignettes/table1-examples.html#example-a-column-of-p-values" class="external-link">table1 documentation</a>. The <code>table1_pvalue</code> function is a convenience function that allows users to supply their own tests to be computed in <code>table1</code>. The defaults include <code>t.test</code> and ANOVA omnibus test (via a <code>lm</code> and <code>anova</code> wrapper) for continuous variables, and <code>chisq.test</code> for categorical variables:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
@@ -755,6 +774,8 @@
 </tr>
 </tbody>
 </table>
+</div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

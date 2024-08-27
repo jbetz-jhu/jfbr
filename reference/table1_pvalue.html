@@ -41,15 +41,16 @@ p-values: see ?table1::table1.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">table1_pvalue</span><span class="op">(</span></span>
-<span>  <span class="va">...</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">variable</span>,</span>
 <span>  test_numeric_2_levels <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span>,</span>
 <span>  test_numeric_more_than_2_levels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">formula</span><span class="op">)</span> <span class="op">{</span></span>
 <span>     <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>p.value <span class="op">=</span></span>
 <span>    <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">formula</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">`Pr(&gt;F)`</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span> <span class="op">}</span>,</span>
 <span>  test_categorical_2_levels <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span>,</span>
-<span>  test_categorical_more_than_2_levels <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span></span>
+<span>  test_categorical_more_than_2_levels <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -57,13 +58,14 @@ p-values: see ?table1::table1.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Other arguments: not currently used.</p></dd>
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>A named <code>list</code> of values - Typically passed from
+table1::table1().</p></dd>
 
 
-<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
-<dd><p><code>numeric</code> scalar: number of digits to use when formatting
-p-values</p></dd>
+<dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
+<dd><p>a <code>character</code> scalar indicating the grouping variable
+name - Typically passed from table1::table1().</p></dd>
 
 
 <dt id="arg-test-numeric-levels">test_numeric_2_levels<a class="anchor" aria-label="anchor" href="#arg-test-numeric-levels"></a></dt>
@@ -94,12 +96,9 @@ two levels and <code>variable</code> is categorical. The default is <code>chisq.
 alternatives include: <code>fisher.test</code>.</p></dd>
 
 
-<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>Passed by <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> - leave empty.</p></dd>
-
-
-<dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
-<dd><p>Passed by <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> - leave empty.</p></dd>
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p><code>numeric</code> scalar: number of digits to use when formatting
+p-values</p></dd>
 
 </dl></div>
     <div class="section level2">
