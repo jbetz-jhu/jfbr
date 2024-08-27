@@ -45,7 +45,7 @@ more flexibility in terms of summaries.
 }
 \examples{
 table1_numeric(
-  x = 1:100,
+  x = c(1:100, NA),
   quantiles = c(0.05, 0.95)
 )
 }

@@ -32,7 +32,9 @@ devtools::install_github("jbetz-jhu/jfbr")
 ```
 
 
-## Examples: Tabulation
+## Examples: 
+
+### Tabulation {.tabset}
 
 Convenience functions have been added for the `table1::table1()` function to make it easier to do different summaries and add hypothesis testing.
 
@@ -64,6 +66,11 @@ library(table1)
 library(knitr)
 ```
 
+
+
+
+#### `table1()`: Default
+
 The default for `table1::table1()` is to produce Mean (SD) and Median [Min, Max]. Note: saving the result of `table1::table1()` and using `knitr::kable()`is only necessary when HTML output is not possible:
 
 ```{r table1-Defaults}
@@ -76,6 +83,11 @@ my_table <-
 
 kable(my_table)
 ```
+
+
+
+
+#### `table1()` + `table1_numeric`
 
 Using the argument `render.continuous = table1_numeric` adds Median [IQR] and [Max, Min]:
 
@@ -126,6 +138,10 @@ my_table <-
 kable(my_table)
 ```
 
+
+
+
+#### `table1()` + `table1_pvalue`
 
 Hypothesis tests can be added to `table1` using the `extra.col` argument: there is a worked example of including `t.test` and `chisq.test` in the [table1 documentation](https://cran.r-project.org/web/packages/table1/vignettes/table1-examples.html#example-a-column-of-p-values). The `table1_pvalue` function is a convenience function that allows users to supply their own tests to be computed in `table1`. The defaults include `t.test` and ANOVA omnibus test (via a `lm` and `anova` wrapper) for continuous variables, and `chisq.test` for categorical variables:
 

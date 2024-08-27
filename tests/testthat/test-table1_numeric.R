@@ -1,4 +1,39 @@
 test_that(
+  desc = "table1_numeric error handling works",
+  code = {
+    expect_error(
+      object =
+        table1_numeric(
+          x = 0:100,
+          mean_sd = TRUE,
+          median_iqr = TRUE,
+          range = TRUE,
+          quantiles = c(-2, 3),
+          na.rm = FALSE,
+          quantile_type = 4,
+          digits = 2
+        ),
+      regexp = "Quantiles must be numeric values in range"
+    )
+
+    expect_error(
+      object =
+        table1_numeric(
+          x = 0:100,
+          mean_sd = TRUE,
+          median_iqr = TRUE,
+          range = TRUE,
+          quantiles = c(0.05, NA, 0.95),
+          na.rm = FALSE,
+          quantile_type = 4,
+          digits = 2
+        ),
+      regexp = "Quantiles must be numeric values in range"
+    )
+  }
+)
+
+test_that(
   desc = "table1_numeric works in isolation",
   code = {
     expect_error(
@@ -28,7 +63,7 @@ test_that(
     expect_no_condition(
       object =
         table1(
-          x = ~ continuous | binary_factor,
+          x = ~ continuous + numbers | binary_factor,
           data = jfbr_test,
           render.continuous = table1_numeric
         )
@@ -37,7 +72,7 @@ test_that(
     expect_no_condition(
       object =
         table1(
-          x = ~ continuous | binary_factor,
+          x = ~ continuous + numbers | binary_factor,
           data = jfbr_test,
           render.continuous =
             function(x) table1_numeric(x = x, quantiles = c(0.05, 0.95))
@@ -47,7 +82,7 @@ test_that(
     expect_error(
       object =
         table1(
-          x = ~ continuous | binary_factor,
+          x = ~ continuous + numbers | binary_factor,
           data = jfbr_test,
           render.continuous =
             function(x) table1_numeric(

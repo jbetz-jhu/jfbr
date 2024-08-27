@@ -10,6 +10,7 @@
 #' @param range A \code{logical} scalar: Compute Range?
 #' @param quantiles A \code{vector} of \code{numeric} values: Quantiles to
 #' compute
+#' @param completeness A \code{logical} scalar: Compute completeness?
 #' @param na.rm \code{logical} scalar: Remove \code{NA} values?
 #' @param quantile_type A \code{numeric} scalar, indicating the method of
 #' computing quantiles with [stats::quantile()].
@@ -22,7 +23,7 @@
 #'
 #' @examples
 #' table1_numeric(
-#'   x = 1:100,
+#'   x = c(1:100, NA),
 #'   quantiles = c(0.05, 0.95)
 #' )
 
@@ -33,7 +34,8 @@ table1_numeric <-
     median_iqr = TRUE,
     range = TRUE,
     quantiles = NULL,
-    na.rm = FALSE,
+    completeness = TRUE,
+    na.rm = TRUE,
     quantile_type = 7,
     digits = 2
   ){
@@ -124,6 +126,17 @@ table1_numeric <-
 
       results <-
         c(results, q_result)
+    }
+
+    if(completeness){
+      results <-
+        c(results,
+          `Complete (N%)` =
+            sprintf("%s (%s%%)",
+                    sum(!is.na(x)),
+                    round(x = (100*mean(!is.na(x))), digits = digits)
+            )
+        )
     }
 
     return(results)

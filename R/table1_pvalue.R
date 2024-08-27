@@ -32,7 +32,51 @@
 #' @export
 #'
 #' @examples
-#' # To be added
+#'
+#' set.seed(12345)
+#' n_obs <- 200
+#'
+#' jfbr_test <-
+#'   data.frame(
+#'     numbers = 1:n_obs,
+#'     continuous = runif(n = n_obs),
+#'     binary = rbinom(n = n_obs, size = 1, prob = 0.5),
+#'     binary_factor =
+#'       factor(
+#'         x = rbinom(n = n_obs, size = 1, prob = 0.5),
+#'         levels = 0:1,
+#'         labels = c("0. No", "1. Yes")
+#'       ),
+#'     categorical = factor(sample(x = 1:4, size = n_obs, replace = TRUE)),
+#'     ordered = ordered(sample(x = 1:4, size = n_obs, replace = TRUE))
+#'   )
+#'
+#'
+#' table1::table1(
+#'   x = ~ numbers + continuous + binary + ordered | categorical,
+#'   data = jfbr_test,
+#'   overall = FALSE,
+#'   extra.col =
+#'     list("p-value" = table1_pvalue)
+#' )
+#'
+#' table1::table1(
+#'   x = ~ numbers + continuous + binary + ordered | binary_factor,
+#'   data = jfbr_test,
+#'   overall = FALSE,
+#'   extra.col =
+#'     list("p-value" =
+#'            function(x, value) table1_pvalue(
+#'              x = x,
+#'              variable = variable,
+#'              test_numeric_2_levels = wilcox.test,
+#'              test_numeric_more_than_2_levels = kruskal.test,
+#'              test_categorical_2_levels = fisher.test,
+#'              test_categorical_more_than_2_levels = fisher.test
+#'            )
+#'     )
+#' )
+
 
 table1_pvalue <-
   function(
