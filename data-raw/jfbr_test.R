@@ -35,5 +35,7 @@ missing_cols <-
     "categorical")
 jfbr_test[
   cbind(sample(x = 1:n_obs, size = length(missing_cols), replace = TRUE),
-    which(names(jfbr_test) %in% missing_cols))
+        which(names(jfbr_test) %in% missing_cols))
 ] <- NA
+
+usethis::use_data(jfbr_test, overwrite = TRUE)

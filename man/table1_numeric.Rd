@@ -2,7 +2,7 @@
 % Please edit documentation in R/table1_numeric.R
 \name{table1_numeric}
 \alias{table1_numeric}
-\title{Summary Functions for table1::table1()}
+\title{Summary Functions for table1::table1() for Numeric Data}
 \usage{
 table1_numeric(
   x,

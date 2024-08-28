@@ -1,4 +1,4 @@
-#' Summary Functions for table1::table1()
+#' Summary Functions for table1::table1() for Numeric Data
 #'
 #' The default functions in table1::table1() compute the Mean (SD) and Median
 #' (Min, Max) for continuous values. These summary functions are meant to offer

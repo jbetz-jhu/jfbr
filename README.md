@@ -32,27 +32,6 @@ function to make it easier to do different summaries and add hypothesis
 testing.
 
 ``` r
-# Create Example Data:
-set.seed(12345)
-n_obs <- 1000
-
-my_data <-
-  data.frame(
-    numbers = 1:n_obs,
-    continuous = runif(n = n_obs),
-    binary = rbinom(n = n_obs, size = 1, prob = 0.5),
-    binary_factor =
-      factor(
-        x = rbinom(n = n_obs, size = 1, prob = 0.5),
-        levels = 0:1,
-        labels = c("0. No", "1. Yes")
-      ),
-    categorical = factor(sample(x = 1:4, size = n_obs, replace = TRUE)),
-    ordered = ordered(sample(x = 1:4, size = n_obs, replace = TRUE))
-  )
-```
-
-``` r
 library(jfbr)
 library(table1)
 #> 
@@ -63,62 +42,111 @@ library(table1)
 library(knitr)
 ```
 
+The package includes an example dataset `jfbr_test` which is used in the
+examples below:
+
+``` r
+head(jfbr_test)
+#>   numbers continuous binary ordered binary_factor categorical two_level_group
+#> 1       1  0.7209039      1       3        1. Yes           1         Group 1
+#> 2       2  0.8757732      1       2         0. No           4         Group 2
+#> 3       3  0.7609823      0       1        1. Yes           1         Group 1
+#> 4       4  0.8861246      1       3        1. Yes           3         Group 1
+#> 5       5  0.4564810      1       1         0. No           1         Group 2
+#> 6       6  0.1663718      1       4        1. Yes           2         Group 1
+#>   three_level_group
+#> 1           Group 1
+#> 2           Group 1
+#> 3           Group 3
+#> 4           Group 3
+#> 5           Group 3
+#> 6           Group 1
+```
+
 #### `table1()`: Default
 
 The default for `table1::table1()` is to produce Mean (SD) and Median
-\[Min, Max\]. Note: saving the result of `table1::table1()` and using
-`knitr::kable()`is only necessary when HTML output is not possible:
+\[Min, Max\] for numeric values, and `NA` is treated as a level of a
+factor for categorical variables.
+
+**Note: saving the result of `table1::table1()` and using
+`knitr::kable()`is only necessary when HTML output is not possible
+(e.g. `output: github_document` in R Markdown)**
 
 ``` r
 # table1() defaults
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data
+    x = ~ continuous + numbers + ordered + binary_factor + categorical |
+      two_level_group,
+    data = jfbr_test
   )
 
 kable(my_table)
 ```
 
-|                     | 0\. No                   | 1\. Yes                  | Overall                  |
+|                     | Group 1                  | Group 2                  | Overall                  |
 |:--------------------|:-------------------------|:-------------------------|:-------------------------|
-|                     | (N=503)                  | (N=497)                  | (N=1000)                 |
+|                     | (N=97)                   | (N=103)                  | (N=200)                  |
 | continuous          |                          |                          |                          |
-| Mean (SD)           | 0.513 (0.287)            | 0.515 (0.282)            | 0.514 (0.284)            |
-| Median \[Min, Max\] | 0.515 \[0.00114, 0.997\] | 0.527 \[0.00425, 0.993\] | 0.521 \[0.00114, 0.997\] |
+| Mean (SD)           | 0.525 (0.297)            | 0.560 (0.291)            | 0.543 (0.294)            |
+| Median \[Min, Max\] | 0.510 \[0.00114, 0.993\] | 0.601 \[0.00599, 0.990\] | 0.588 \[0.00114, 0.993\] |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 | 1 (0.5%)                 |
 | numbers             |                          |                          |                          |
-| Mean (SD)           | 492 (289)                | 509 (289)                | 501 (289)                |
-| Median \[Min, Max\] | 490 \[5.00, 1000\]       | 509 \[1.00, 999\]        | 501 \[1.00, 1000\]       |
+| Mean (SD)           | 100 (57.0)               | 101 (59.0)               | 101 (57.9)               |
+| Median \[Min, Max\] | 100 \[1.00, 200\]        | 104 \[2.00, 197\]        | 101 \[1.00, 200\]        |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 | 1 (0.5%)                 |
+| ordered             |                          |                          |                          |
+| 1                   | 29 (29.9%)               | 34 (33.0%)               | 63 (31.5%)               |
+| 2                   | 15 (15.5%)               | 25 (24.3%)               | 40 (20.0%)               |
+| 3                   | 28 (28.9%)               | 20 (19.4%)               | 48 (24.0%)               |
+| 4                   | 24 (24.7%)               | 24 (23.3%)               | 48 (24.0%)               |
+| Missing             | 1 (1.0%)                 | 0 (0%)                   | 1 (0.5%)                 |
+| binary_factor       |                          |                          |                          |
+| 0\. No              | 46 (47.4%)               | 47 (45.6%)               | 93 (46.5%)               |
+| 1\. Yes             | 51 (52.6%)               | 55 (53.4%)               | 106 (53.0%)              |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 | 1 (0.5%)                 |
+| categorical         |                          |                          |                          |
+| 1                   | 23 (23.7%)               | 24 (23.3%)               | 47 (23.5%)               |
+| 2                   | 26 (26.8%)               | 16 (15.5%)               | 42 (21.0%)               |
+| 3                   | 25 (25.8%)               | 30 (29.1%)               | 55 (27.5%)               |
+| 4                   | 23 (23.7%)               | 32 (31.1%)               | 55 (27.5%)               |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 | 1 (0.5%)                 |
 
 #### `table1()` + `table1_numeric`
 
 Using the argument `render.continuous = table1_numeric` adds Median
-\[IQR\] and \[Max, Min\]:
+\[IQR\] and \[Max, Min\], while
+`render.categorical = table1_categorical` summarizes the observed
+frequencies and tabulates the proportion of missing values separately:
 
 ``` r
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
-    render.continuous = table1_numeric
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
+    render.continuous = table1_numeric,
+    render.categorical = table1_categorical
   )
 
 kable(my_table)
 ```
 
-|                | 0\. No          | 1\. Yes         | Overall        |
-|:---------------|:----------------|:----------------|:---------------|
-|                | (N=503)         | (N=497)         | (N=1000)       |
-| continuous     |                 |                 |                |
-| Mean (SD)      | 0.51 (0.29)     | 0.52 (0.28)     | 0.51 (0.28)    |
-| Median \[IQR\] | 0.51 (0.29)     | 0.53 (0.28)     | 0.52 (0.28)    |
-| \[Min, Max\]   | \[0, 1\]        | \[0, 0.99\]     | \[0, 1\]       |
-| Complete (N%)  | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
-| numbers        |                 |                 |                |
-| Mean (SD)      | 492.08 (289.16) | 509.02 (288.52) | 500.5 (288.82) |
-| Median \[IQR\] | 490 (289.16)    | 509 (288.52)    | 500.5 (288.82) |
-| \[Min, Max\]   | \[5, 1000\]     | \[1, 999\]      | \[1, 1000\]    |
-| Complete (N%)  | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
+|                | Group 1        | Group 2        | Overall        |
+|:---------------|:---------------|:---------------|:---------------|
+|                | (N=97)         | (N=103)        | (N=200)        |
+| continuous     |                |                |                |
+| Mean (SD)      | 0.53 (0.3)     | 0.56 (0.29)    | 0.54 (0.29)    |
+| Median \[IQR\] | 0.51 (0.3)     | 0.6 (0.29)     | 0.59 (0.29)    |
+| \[Min, Max\]   | \[0, 0.99\]    | \[0.01, 0.99\] | \[0, 0.99\]    |
+| Complete (N%)  | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing        | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
+| numbers        |                |                |                |
+| Mean (SD)      | 100.05 (57.01) | 101.42 (59.03) | 100.75 (57.91) |
+| Median \[IQR\] | 100 (57.01)    | 103.5 (59.03)  | 101 (57.91)    |
+| \[Min, Max\]   | \[1, 200\]     | \[2, 197\]     | \[1, 200\]     |
+| Complete (N%)  | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing        | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
 
 The arguments `mean_sd`, `median_iqr`, and `range` control which
 summaries are computed. Quantiles can be added optionally with the
@@ -128,8 +156,8 @@ summaries are computed. Quantiles can be added optionally with the
 # Only Mean/SD
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
     render.continuous = 
       function(x)
         table1_numeric(
@@ -142,23 +170,25 @@ my_table <-
 kable(my_table)
 ```
 
-|               | 0\. No          | 1\. Yes         | Overall        |
-|:--------------|:----------------|:----------------|:---------------|
-|               | (N=503)         | (N=497)         | (N=1000)       |
-| continuous    |                 |                 |                |
-| Mean (SD)     | 0.51 (0.29)     | 0.52 (0.28)     | 0.51 (0.28)    |
-| Complete (N%) | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
-| numbers       |                 |                 |                |
-| Mean (SD)     | 492.08 (289.16) | 509.02 (288.52) | 500.5 (288.82) |
-| Complete (N%) | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
+|               | Group 1        | Group 2        | Overall        |
+|:--------------|:---------------|:---------------|:---------------|
+|               | (N=97)         | (N=103)        | (N=200)        |
+| continuous    |                |                |                |
+| Mean (SD)     | 0.53 (0.3)     | 0.56 (0.29)    | 0.54 (0.29)    |
+| Complete (N%) | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing       | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
+| numbers       |                |                |                |
+| Mean (SD)     | 100.05 (57.01) | 101.42 (59.03) | 100.75 (57.91) |
+| Complete (N%) | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing       | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
 
 ``` r
 
 # Only Mean/SD, 5% and 95% Quantiles
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
     render.continuous = 
       function(x)
         table1_numeric(
@@ -171,17 +201,19 @@ my_table <-
 kable(my_table)
 ```
 
-|               | 0\. No          | 1\. Yes         | Overall        |
-|:--------------|:----------------|:----------------|:---------------|
-|               | (N=503)         | (N=497)         | (N=1000)       |
-| continuous    |                 |                 |                |
-| Mean (SD)     | 0.51 (0.29)     | 0.52 (0.28)     | 0.51 (0.28)    |
-| 5%, 95%       | 0.04, 0.94      | 0.06, 0.95      | 0.05, 0.94     |
-| Complete (N%) | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
-| numbers       |                 |                 |                |
-| Mean (SD)     | 492.08 (289.16) | 509.02 (288.52) | 500.5 (288.82) |
-| 5%, 95%       | 52.3, 948.9     | 50.6, 950.2     | 50.95, 950.05  |
-| Complete (N%) | 503 (100%)      | 497 (100%)      | 1000 (100%)    |
+|               | Group 1        | Group 2        | Overall        |
+|:--------------|:---------------|:---------------|:---------------|
+|               | (N=97)         | (N=103)        | (N=200)        |
+| continuous    |                |                |                |
+| Mean (SD)     | 0.53 (0.3)     | 0.56 (0.29)    | 0.54 (0.29)    |
+| 5%, 95%       | 0.03, 0.97     | 0.09, 0.96     | 0.05, 0.97     |
+| Complete (N%) | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing       | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
+| numbers       |                |                |                |
+| Mean (SD)     | 100.05 (57.01) | 101.42 (59.03) | 100.75 (57.91) |
+| 5%, 95%       | 10.2, 189      | 12.05, 189.95  | 10.9, 190.1    |
+| Complete (N%) | 97 (100%)      | 102 (99.03%)   | 199 (99.5%)    |
+| Missing       | 0 (0%)         | 1 (1.0%)       | 1 (0.5%)       |
 
 #### `table1()` + `table1_pvalue`
 
@@ -197,8 +229,9 @@ for continuous variables, and `chisq.test` for categorical variables:
 ``` r
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | binary_factor,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | two_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" = table1_pvalue)
@@ -207,30 +240,45 @@ my_table <-
 kable(my_table)
 ```
 
-|                     | 0\. No                   | 1\. Yes                  | p-value |
+|                     | Group 1                  | Group 2                  | p-value |
 |:--------------------|:-------------------------|:-------------------------|:--------|
-|                     | (N=503)                  | (N=497)                  |         |
+|                     | (N=97)                   | (N=103)                  |         |
 | numbers             |                          |                          |         |
-| Mean (SD)           | 492 (289)                | 509 (289)                | 0.354   |
-| Median \[Min, Max\] | 490 \[5.00, 1000\]       | 509 \[1.00, 999\]        |         |
+| Mean (SD)           | 100 (57.0)               | 101 (59.0)               | 0.868   |
+| Median \[Min, Max\] | 100 \[1.00, 200\]        | 104 \[2.00, 197\]        |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | continuous          |                          |                          |         |
-| Mean (SD)           | 0.513 (0.287)            | 0.515 (0.282)            | 0.895   |
-| Median \[Min, Max\] | 0.515 \[0.00114, 0.997\] | 0.527 \[0.00425, 0.993\] |         |
+| Mean (SD)           | 0.525 (0.297)            | 0.560 (0.291)            | 0.407   |
+| Median \[Min, Max\] | 0.510 \[0.00114, 0.993\] | 0.601 \[0.00599, 0.990\] |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | binary              |                          |                          |         |
-| Mean (SD)           | 0.491 (0.500)            | 0.535 (0.499)            | 0.163   |
-| Median \[Min, Max\] | 0 \[0, 1.00\]            | 1.00 \[0, 1.00\]         |         |
+| Mean (SD)           | 0.546 (0.500)            | 0.578 (0.496)            | 0.651   |
+| Median \[Min, Max\] | 1.00 \[0, 1.00\]         | 1.00 \[0, 1.00\]         |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | ordered             |                          |                          |         |
-| 1                   | 136 (27.0%)              | 119 (23.9%)              | 0.725   |
-| 2                   | 112 (22.3%)              | 115 (23.1%)              |         |
-| 3                   | 121 (24.1%)              | 122 (24.5%)              |         |
-| 4                   | 134 (26.6%)              | 141 (28.4%)              |         |
+| 1                   | 29 (29.9%)               | 34 (33.0%)               | 0.263   |
+| 2                   | 15 (15.5%)               | 25 (24.3%)               |         |
+| 3                   | 28 (28.9%)               | 20 (19.4%)               |         |
+| 4                   | 24 (24.7%)               | 24 (23.3%)               |         |
+| Missing             | 1 (1.0%)                 | 0 (0%)                   |         |
+| binary_factor       |                          |                          |         |
+| 0\. No              | 46 (47.4%)               | 47 (45.6%)               | 0.962   |
+| 1\. Yes             | 51 (52.6%)               | 55 (53.4%)               |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
+| categorical         |                          |                          |         |
+| 1                   | 23 (23.7%)               | 24 (23.3%)               | 0.24    |
+| 2                   | 26 (26.8%)               | 16 (15.5%)               |         |
+| 3                   | 25 (25.8%)               | 30 (29.1%)               |         |
+| 4                   | 23 (23.7%)               | 32 (31.1%)               |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 
 ``` r
 
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | categorical,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | three_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" = table1_pvalue)
@@ -239,23 +287,37 @@ my_table <-
 kable(my_table)
 ```
 
-|                     | 1                        | 2                        | 3                        | 4                        | p-value |
-|:--------------------|:-------------------------|:-------------------------|:-------------------------|:-------------------------|:--------|
-|                     | (N=240)                  | (N=269)                  | (N=253)                  | (N=238)                  |         |
-| numbers             |                          |                          |                          |                          |         |
-| Mean (SD)           | 475 (290)                | 505 (290)                | 523 (285)                | 496 (290)                | 0.326   |
-| Median \[Min, Max\] | 463 \[3.00, 996\]        | 488 \[1.00, 987\]        | 539 \[2.00, 997\]        | 494 \[6.00, 1000\]       |         |
-| continuous          |                          |                          |                          |                          |         |
-| Mean (SD)           | 0.508 (0.283)            | 0.497 (0.295)            | 0.556 (0.282)            | 0.494 (0.273)            | 0.0492  |
-| Median \[Min, Max\] | 0.508 \[0.00693, 0.997\] | 0.517 \[0.00425, 0.995\] | 0.598 \[0.00946, 0.996\] | 0.512 \[0.00114, 0.990\] |         |
-| binary              |                          |                          |                          |                          |         |
-| Mean (SD)           | 0.504 (0.501)            | 0.487 (0.501)            | 0.534 (0.500)            | 0.529 (0.500)            | 0.686   |
-| Median \[Min, Max\] | 1.00 \[0, 1.00\]         | 0 \[0, 1.00\]            | 1.00 \[0, 1.00\]         | 1.00 \[0, 1.00\]         |         |
-| ordered             |                          |                          |                          |                          |         |
-| 1                   | 77 (32.1%)               | 57 (21.2%)               | 62 (24.5%)               | 59 (24.8%)               | 0.155   |
-| 2                   | 54 (22.5%)               | 66 (24.5%)               | 57 (22.5%)               | 50 (21.0%)               |         |
-| 3                   | 54 (22.5%)               | 76 (28.3%)               | 56 (22.1%)               | 57 (23.9%)               |         |
-| 4                   | 55 (22.9%)               | 70 (26.0%)               | 78 (30.8%)               | 72 (30.3%)               |         |
+|                     | Group 1                  | Group 2                  | Group 3                  | p-value |
+|:--------------------|:-------------------------|:-------------------------|:-------------------------|:--------|
+|                     | (N=67)                   | (N=70)                   | (N=63)                   |         |
+| numbers             |                          |                          |                          |         |
+| Mean (SD)           | 103 (61.3)               | 97.7 (52.6)              | 101 (60.6)               | 0.85    |
+| Median \[Min, Max\] | 107 \[1.00, 197\]        | 99.5 \[7.00, 185\]       | 98.0 \[3.00, 200\]       |         |
+| Missing             | 0 (0%)                   | 0 (0%)                   | 1 (1.6%)                 |         |
+| continuous          |                          |                          |                          |         |
+| Mean (SD)           | 0.521 (0.321)            | 0.555 (0.282)            | 0.553 (0.280)            | 0.756   |
+| Median \[Min, Max\] | 0.509 \[0.00693, 0.990\] | 0.600 \[0.00114, 0.970\] | 0.609 \[0.00865, 0.993\] |         |
+| Missing             | 0 (0%)                   | 1 (1.4%)                 | 0 (0%)                   |         |
+| binary              |                          |                          |                          |         |
+| Mean (SD)           | 0.552 (0.501)            | 0.507 (0.504)            | 0.635 (0.485)            | 0.332   |
+| Median \[Min, Max\] | 1.00 \[0, 1.00\]         | 1.00 \[0, 1.00\]         | 1.00 \[0, 1.00\]         |         |
+| Missing             | 0 (0%)                   | 1 (1.4%)                 | 0 (0%)                   |         |
+| ordered             |                          |                          |                          |         |
+| 1                   | 13 (19.4%)               | 29 (41.4%)               | 21 (33.3%)               | 0.00748 |
+| 2                   | 21 (31.3%)               | 11 (15.7%)               | 8 (12.7%)                |         |
+| 3                   | 14 (20.9%)               | 20 (28.6%)               | 14 (22.2%)               |         |
+| 4                   | 18 (26.9%)               | 10 (14.3%)               | 20 (31.7%)               |         |
+| Missing             | 1 (1.5%)                 | 0 (0%)                   | 0 (0%)                   |         |
+| binary_factor       |                          |                          |                          |         |
+| 0\. No              | 26 (38.8%)               | 40 (57.1%)               | 27 (42.9%)               | 0.0825  |
+| 1\. Yes             | 41 (61.2%)               | 30 (42.9%)               | 35 (55.6%)               |         |
+| Missing             | 0 (0%)                   | 0 (0%)                   | 1 (1.6%)                 |         |
+| categorical         |                          |                          |                          |         |
+| 1                   | 18 (26.9%)               | 15 (21.4%)               | 14 (22.2%)               | 0.364   |
+| 2                   | 13 (19.4%)               | 12 (17.1%)               | 17 (27.0%)               |         |
+| 3                   | 22 (32.8%)               | 18 (25.7%)               | 15 (23.8%)               |         |
+| 4                   | 13 (19.4%)               | 25 (35.7%)               | 17 (27.0%)               |         |
+| Missing             | 1 (1.5%)                 | 0 (0%)                   | 0 (0%)                   |         |
 
 Any function that returns an element `p.value` can be passed as an
 argument, allowing users to customize which tests are performed:
@@ -263,8 +325,9 @@ argument, allowing users to customize which tests are performed:
 ``` r
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | binary_factor,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | two_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" =
@@ -282,20 +345,34 @@ my_table <-
 kable(my_table)
 ```
 
-|                     | 0\. No                   | 1\. Yes                  | p-value |
+|                     | Group 1                  | Group 2                  | p-value |
 |:--------------------|:-------------------------|:-------------------------|:--------|
-|                     | (N=503)                  | (N=497)                  |         |
+|                     | (N=97)                   | (N=103)                  |         |
 | numbers             |                          |                          |         |
-| Mean (SD)           | 492 (289)                | 509 (289)                | 0.354   |
-| Median \[Min, Max\] | 490 \[5.00, 1000\]       | 509 \[1.00, 999\]        |         |
+| Mean (SD)           | 100 (57.0)               | 101 (59.0)               | 0.866   |
+| Median \[Min, Max\] | 100 \[1.00, 200\]        | 104 \[2.00, 197\]        |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | continuous          |                          |                          |         |
-| Mean (SD)           | 0.513 (0.287)            | 0.515 (0.282)            | 0.904   |
-| Median \[Min, Max\] | 0.515 \[0.00114, 0.997\] | 0.527 \[0.00425, 0.993\] |         |
+| Mean (SD)           | 0.525 (0.297)            | 0.560 (0.291)            | 0.377   |
+| Median \[Min, Max\] | 0.510 \[0.00114, 0.993\] | 0.601 \[0.00599, 0.990\] |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | binary              |                          |                          |         |
-| Mean (SD)           | 0.491 (0.500)            | 0.535 (0.499)            | 0.163   |
-| Median \[Min, Max\] | 0 \[0, 1.00\]            | 1.00 \[0, 1.00\]         |         |
+| Mean (SD)           | 0.546 (0.500)            | 0.578 (0.496)            | 0.651   |
+| Median \[Min, Max\] | 1.00 \[0, 1.00\]         | 1.00 \[0, 1.00\]         |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
 | ordered             |                          |                          |         |
-| 1                   | 136 (27.0%)              | 119 (23.9%)              | 0.724   |
-| 2                   | 112 (22.3%)              | 115 (23.1%)              |         |
-| 3                   | 121 (24.1%)              | 122 (24.5%)              |         |
-| 4                   | 134 (26.6%)              | 141 (28.4%)              |         |
+| 1                   | 29 (29.9%)               | 34 (33.0%)               | 0.266   |
+| 2                   | 15 (15.5%)               | 25 (24.3%)               |         |
+| 3                   | 28 (28.9%)               | 20 (19.4%)               |         |
+| 4                   | 24 (24.7%)               | 24 (23.3%)               |         |
+| Missing             | 1 (1.0%)                 | 0 (0%)                   |         |
+| binary_factor       |                          |                          |         |
+| 0\. No              | 46 (47.4%)               | 47 (45.6%)               | 0.888   |
+| 1\. Yes             | 51 (52.6%)               | 55 (53.4%)               |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |
+| categorical         |                          |                          |         |
+| 1                   | 23 (23.7%)               | 24 (23.3%)               | 0.241   |
+| 2                   | 26 (26.8%)               | 16 (15.5%)               |         |
+| 3                   | 25 (25.8%)               | 30 (29.1%)               |         |
+| 4                   | 23 (23.7%)               | 32 (31.1%)               |         |
+| Missing             | 0 (0%)                   | 1 (1.0%)                 |         |

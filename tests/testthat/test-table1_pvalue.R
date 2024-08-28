@@ -9,11 +9,11 @@ test_that(
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$continuous,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$continuous,
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$continuous,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$continuous,
               "overall" = jfbr_test$continuous
             ),
-          variable = "binary_factor",
+          variable = "two_level_group",
           digits = 3
         )
     )
@@ -25,10 +25,10 @@ test_that(
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$continuous,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$continuous
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$continuous,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$continuous
             ),
-          variable = "binary_factor",
+          variable = "two_level_group",
           digits = 3,
         )
     )
@@ -54,11 +54,11 @@ test_that(
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$continuous,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$continuous,
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$continuous,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$continuous,
               "overall" = jfbr_test$continuous
             ),
-          variable = "categorical",
+          variable = "three_level_group",
           digits = 3,
         )
     )
@@ -70,10 +70,10 @@ test_that(
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$continuous,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$continuous
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$continuous,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$continuous
             ),
-          variable = "categorical",
+          variable = "three_level_group",
           digits = 3,
         )
     )
@@ -94,31 +94,31 @@ test_that(
   code = {
     expect_no_condition(
       object =
-        # Two Level Categorical: with overall
+        # Two Level three_level_group: with overall
         two_level_with_overall <-
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$ordered,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$ordered,
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$ordered,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$ordered,
               "overall" = jfbr_test$continuous
             ),
-          variable = "binary_factor",
+          variable = "two_level_group",
           digits = 3,
         )
     )
 
     expect_no_condition(
-      # Two Level Categorical: no overall
+      # Two Level three_level_group: no overall
       object =
         two_level_no_overall <-
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$ordered,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$ordered
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$ordered,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$ordered
             ),
-          variable = "binary_factor",
+          variable = "two_level_group",
           digits = 3,
         )
     )
@@ -139,31 +139,31 @@ test_that(
   code = {
     expect_no_condition(
       object =
-        # Multi Level Categorical: with overall
+        # Multi Level three_level_group: with overall
         multi_level_with_overall <-
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$ordered,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$ordered,
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$ordered,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$ordered,
               "overall" = jfbr_test$continuous
             ),
-          variable = "categorical",
+          variable = "three_level_group",
           digits = 3,
         )
     )
 
     expect_no_condition(
-      # Multi Level Categorical: no overall
+      # Multi Level three_level_group: no overall
       object =
         multi_level_no_overall <-
         table1_pvalue(
           x =
             list(
-              "0. No" = subset(jfbr_test, binary_factor == "0. No")$ordered,
-              "1. Yes" = subset(jfbr_test, binary_factor == "1. Yes")$ordered
+              "0. No" = subset(jfbr_test, two_level_group == "Group 1")$ordered,
+              "1. Yes" = subset(jfbr_test, two_level_group == "Group 2")$ordered
             ),
-          variable = "categorical",
+          variable = "three_level_group",
           digits = 3,
         )
     )
@@ -184,7 +184,8 @@ test_that(
     expect_error(
       object =
         table1::table1(
-          x = ~ numbers + continuous + binary + ordered,
+          x = ~ numbers + continuous + binary + ordered +
+            binary_factor + categorical,
           data = jfbr_test,
           overall = FALSE,
           extra.col =
@@ -197,7 +198,8 @@ test_that(
     expect_no_error(
       object =
         table1::table1(
-          x = ~ numbers + continuous + binary + ordered | binary_factor,
+          x = ~ numbers + continuous + binary + ordered +
+            binary_factor + categorical | two_level_group,
           data = jfbr_test,
           extra.col =
             list("p-value" = function(x = x, variable = variable)
@@ -208,7 +210,8 @@ test_that(
     expect_no_error(
       object =
         table1::table1(
-          x = ~ numbers + continuous + binary + ordered | binary_factor,
+          x = ~ numbers + continuous + binary + ordered +
+            binary_factor + categorical | two_level_group,
           data = jfbr_test,
           extra.col =
             list("p-value" = function(x = x, variable = variable)
@@ -226,7 +229,8 @@ test_that(
     expect_no_error(
       object =
         table1::table1(
-          x = ~ numbers + continuous + binary + ordered | categorical,
+          x = ~ numbers + continuous + binary + ordered +
+            binary_factor + categorical | three_level_group,
           data = jfbr_test,
           overall = FALSE,
           extra.col =

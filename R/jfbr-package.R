@@ -9,6 +9,7 @@
 #' @importFrom stats sd
 #' @importFrom stats setNames
 #' @importFrom stats t.test
+#' @importFrom table1 render.categorical.default
 #' @importFrom table1 table1
 ## usethis namespace: end
 NULL

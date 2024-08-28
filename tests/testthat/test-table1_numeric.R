@@ -63,7 +63,7 @@ test_that(
     expect_no_condition(
       object =
         table1(
-          x = ~ continuous + numbers | binary_factor,
+          x = ~ continuous + numbers | two_level_group,
           data = jfbr_test,
           render.continuous = table1_numeric
         )
@@ -72,7 +72,7 @@ test_that(
     expect_no_condition(
       object =
         table1(
-          x = ~ continuous + numbers | binary_factor,
+          x = ~ continuous + numbers | three_level_group,
           data = jfbr_test,
           render.continuous =
             function(x) table1_numeric(x = x, quantiles = c(0.05, 0.95))
@@ -82,7 +82,7 @@ test_that(
     expect_error(
       object =
         table1(
-          x = ~ continuous + numbers | binary_factor,
+          x = ~ continuous + numbers | two_level_group,
           data = jfbr_test,
           render.continuous =
             function(x) table1_numeric(

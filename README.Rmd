@@ -38,47 +38,36 @@ devtools::install_github("jbetz-jhu/jfbr")
 
 Convenience functions have been added for the `table1::table1()` function to make it easier to do different summaries and add hypothesis testing.
 
-```{r Create-Example-Data}
-# Create Example Data:
-set.seed(12345)
-n_obs <- 1000
-
-my_data <-
-  data.frame(
-    numbers = 1:n_obs,
-    continuous = runif(n = n_obs),
-    binary = rbinom(n = n_obs, size = 1, prob = 0.5),
-    binary_factor =
-      factor(
-        x = rbinom(n = n_obs, size = 1, prob = 0.5),
-        levels = 0:1,
-        labels = c("0. No", "1. Yes")
-      ),
-    categorical = factor(sample(x = 1:4, size = n_obs, replace = TRUE)),
-    ordered = ordered(sample(x = 1:4, size = n_obs, replace = TRUE))
-  )
-```
-
-
 ```{r Load-Packages}
 library(jfbr)
 library(table1)
 library(knitr)
 ```
 
+The package includes an example dataset `jfbr_test` which is used in the examples below:
 
+```{r}
+head(jfbr_test)
+```
 
 
 #### `table1()`: Default
 
-The default for `table1::table1()` is to produce Mean (SD) and Median [Min, Max]. Note: saving the result of `table1::table1()` and using `knitr::kable()`is only necessary when HTML output is not possible:
+The default for `table1::table1()` is to produce Mean (SD) and Median [Min, Max]
+for numeric values, and `NA` is treated as a level of a factor for categorical
+variables.
+
+**Note: saving the result of `table1::table1()` and using `knitr::kable()`is only
+necessary when HTML output is not possible (e.g. `output: github_document` in R
+Markdown)**
 
 ```{r table1-Defaults}
 # table1() defaults
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data
+    x = ~ continuous + numbers + ordered + binary_factor + categorical |
+      two_level_group,
+    data = jfbr_test
   )
 
 kable(my_table)
@@ -87,16 +76,17 @@ kable(my_table)
 
 
 
-#### `table1()` + `table1_numeric`
+#### `table1()` + `table1_numeric` + `table1_categorical`
 
-Using the argument `render.continuous = table1_numeric` adds Median [IQR] and [Max, Min]:
+Using the argument `render.continuous = table1_numeric` adds Median [IQR] and [Max, Min], while `render.categorical = table1_categorical` summarizes the observed frequencies and tabulates the proportion of missing values separately:
 
 ```{r table1-table1_numeric-Default}
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
-    render.continuous = table1_numeric
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
+    render.continuous = table1_numeric,
+    render.categorical = table1_categorical
   )
 
 kable(my_table)
@@ -108,8 +98,8 @@ The arguments `mean_sd`, `median_iqr`, and `range` control which summaries are c
 # Only Mean/SD
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
     render.continuous = 
       function(x)
         table1_numeric(
@@ -124,8 +114,8 @@ kable(my_table)
 # Only Mean/SD, 5% and 95% Quantiles
 my_table <-
   table1(
-    x = ~ continuous + numbers | binary_factor,
-    data = my_data,
+    x = ~ continuous + numbers | two_level_group,
+    data = jfbr_test,
     render.continuous = 
       function(x)
         table1_numeric(
@@ -148,8 +138,9 @@ Hypothesis tests can be added to `table1` using the `extra.col` argument: there 
 ```{r table1-pvalues-defaults}
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | binary_factor,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | two_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" = table1_pvalue)
@@ -159,8 +150,9 @@ kable(my_table)
 
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | categorical,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | three_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" = table1_pvalue)
@@ -174,8 +166,9 @@ Any function that returns an element `p.value` can be passed as an argument, all
 ```{r table1-pvalues-custom}
 my_table <-
   table1::table1(
-    x = ~ numbers + continuous + binary + ordered | binary_factor,
-    data = my_data,
+    x = ~ numbers + continuous + binary + ordered + binary_factor +
+      categorical | two_level_group,
+    data = jfbr_test,
     overall = FALSE,
     extra.col =
       list("p-value" =
