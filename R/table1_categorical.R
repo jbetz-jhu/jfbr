@@ -1,7 +1,7 @@
 #' Summary Functions for table1::table1() for Numeric Data
 #'
 #' @param x A \code{vector} of values passed from [table1::table1()]
-#' @param na.is.category A \code{logical} scalar, indicating whether missing
+#' @param na_is_category A \code{logical} scalar, indicating whether missing
 #' values should be treated as one of the values of the variable (TRUE) or
 #' tabulated separately (FALSE).
 #'
@@ -18,9 +18,9 @@
 
 
 table1_categorical <-
-  function(x) {
+  function(x, na_is_category = FALSE) {
     render.categorical.default(
       x = x,
-      na.is.category = FALSE
+      na.is.category = na_is_category
     )
   }

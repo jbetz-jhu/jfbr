@@ -207,6 +207,37 @@ test_that(
         )
     )
 
+    # Check to see p-values not affected by 'Missing' column in table
+    expect_equal(
+      object =
+        table1::table1(
+          x = ~ categorical | two_level_group,
+          data = jfbr_test,
+          extra.col =
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(x = x, variable = variable))
+        ) |>
+        data.frame() |>
+        get(x = "p.value") |>
+        as.numeric() |>
+        na.omit() |>
+        as.numeric(),
+
+      expected =
+        table1::table1(
+          x = ~ categorical | two_level_group,
+          data = jfbr_test[which(!is.na(jfbr_test$categorical)),],
+          extra.col =
+            list("p-value" = function(x = x, variable = variable)
+              table1_pvalue(x = x, variable = variable))
+        ) |>
+        data.frame() |>
+        get(x = "p.value") |>
+        as.numeric() |>
+        na.omit() |>
+        as.numeric()
+    )
+
     expect_no_error(
       object =
         table1::table1(

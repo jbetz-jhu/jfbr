@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# jfbr
+# jfbr: A Package of Miscellaneous Workflow Functions
 
 <!-- badges: start -->
 
@@ -113,7 +113,7 @@ kable(my_table)
 | 4                   | 23 (23.7%)               | 32 (31.1%)               | 55 (27.5%)               |
 | Missing             | 0 (0%)                   | 1 (1.0%)                 | 1 (0.5%)                 |
 
-#### `table1()` + `table1_numeric`
+#### `table1()` + `table1_numeric` + `table1_categorical`
 
 Using the argument `render.continuous = table1_numeric` adds Median
 \[IQR\] and \[Max, Min\], while
