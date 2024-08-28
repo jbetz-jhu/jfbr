@@ -4,12 +4,12 @@
 \alias{table1_categorical}
 \title{Summary Functions for table1::table1() for Numeric Data}
 \usage{
-table1_categorical(x)
+table1_categorical(x, na_is_category = FALSE)
 }
 \arguments{
 \item{x}{A \code{vector} of values passed from \code{\link[table1:table1]{table1::table1()}}}
 
-\item{na.is.category}{A \code{logical} scalar, indicating whether missing
+\item{na_is_category}{A \code{logical} scalar, indicating whether missing
 values should be treated as one of the values of the variable (TRUE) or
 tabulated separately (FALSE).}
 }
