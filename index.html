@@ -66,25 +66,6 @@
 </h3>
 <p>Convenience functions have been added for the <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> function to make it easier to do different summaries and add hypothesis testing.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create Example Data:</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span>
-<span><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span></span>
-<span><span class="va">my_data</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>    numbers <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_obs</span>,</span>
-<span>    continuous <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_obs</span><span class="op">)</span>,</span>
-<span>    binary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_obs</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>    binary_factor <span class="op">=</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
-<span>        x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_obs</span>, size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>        levels <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>,</span>
-<span>        labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"0. No"</span>, <span class="st">"1. Yes"</span><span class="op">)</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>    categorical <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, size <span class="op">=</span> <span class="va">n_obs</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    ordered <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, size <span class="op">=</span> <span class="va">n_obs</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbetz-jhu.github.io/jfbr/">jfbr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/benjaminrich/table1" class="external-link">table1</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -93,17 +74,36 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     units, units&lt;-</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span></code></pre></div>
+<p>The package includes an example dataset <code>jfbr_test</code> which is used in the examples below:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">jfbr_test</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   numbers continuous binary ordered binary_factor categorical two_level_group</span></span>
+<span><span class="co">#&gt; 1       1  0.7209039      1       3        1. Yes           1         Group 1</span></span>
+<span><span class="co">#&gt; 2       2  0.8757732      1       2         0. No           4         Group 2</span></span>
+<span><span class="co">#&gt; 3       3  0.7609823      0       1        1. Yes           1         Group 1</span></span>
+<span><span class="co">#&gt; 4       4  0.8861246      1       3        1. Yes           3         Group 1</span></span>
+<span><span class="co">#&gt; 5       5  0.4564810      1       1         0. No           1         Group 2</span></span>
+<span><span class="co">#&gt; 6       6  0.1663718      1       4        1. Yes           2         Group 1</span></span>
+<span><span class="co">#&gt;   three_level_group</span></span>
+<span><span class="co">#&gt; 1           Group 1</span></span>
+<span><span class="co">#&gt; 2           Group 1</span></span>
+<span><span class="co">#&gt; 3           Group 3</span></span>
+<span><span class="co">#&gt; 4           Group 3</span></span>
+<span><span class="co">#&gt; 5           Group 3</span></span>
+<span><span class="co">#&gt; 6           Group 1</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="table1-default">
 <code>table1()</code>: Default<a class="anchor" aria-label="anchor" href="#table1-default"></a>
 </h4>
-<p>The default for <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> is to produce Mean (SD) and Median [Min, Max]. Note: saving the result of <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> and using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>is only necessary when HTML output is not possible:</p>
+<p>The default for <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> is to produce Mean (SD) and Median [Min, Max] for numeric values, and <code>NA</code> is treated as a level of a factor for categorical variables.</p>
+<p><strong>Note: saving the result of <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> and using <code><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">knitr::kable()</a></code>is only necessary when HTML output is not possible (e.g. <code>output: github_document</code> in R Markdown)</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># table1() defaults</span></span>
 <span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span></span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">+</span> <span class="va">binary_factor</span> <span class="op">+</span> <span class="va">categorical</span> <span class="op">|</span></span>
+<span>      <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
@@ -116,16 +116,16 @@
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">Overall</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
-<td align="left">(N=1000)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
+<td align="left">(N=200)</td>
 </tr>
 <tr class="even">
 <td align="left">continuous</td>
@@ -135,33 +135,141 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.513 (0.287)</td>
-<td align="left">0.515 (0.282)</td>
-<td align="left">0.514 (0.284)</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.543 (0.294)</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">0.515 [0.00114, 0.997]</td>
-<td align="left">0.527 [0.00425, 0.993]</td>
-<td align="left">0.521 [0.00114, 0.997]</td>
+<td align="left">0.510 [0.00114, 0.993]</td>
+<td align="left">0.601 [0.00599, 0.990]</td>
+<td align="left">0.588 [0.00114, 0.993]</td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">492 (289)</td>
-<td align="left">509 (289)</td>
-<td align="left">501 (289)</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">101 (57.9)</td>
+</tr>
+<tr class="even">
+<td align="left">Median [Min, Max]</td>
+<td align="left">100 [1.00, 200]</td>
+<td align="left">104 [2.00, 197]</td>
+<td align="left">101 [1.00, 200]</td>
 </tr>
 <tr class="odd">
-<td align="left">Median [Min, Max]</td>
-<td align="left">490 [5.00, 1000]</td>
-<td align="left">509 [1.00, 999]</td>
-<td align="left">501 [1.00, 1000]</td>
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">ordered</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">29 (29.9%)</td>
+<td align="left">34 (33.0%)</td>
+<td align="left">63 (31.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">15 (15.5%)</td>
+<td align="left">25 (24.3%)</td>
+<td align="left">40 (20.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">28 (28.9%)</td>
+<td align="left">20 (19.4%)</td>
+<td align="left">48 (24.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">24 (24.7%)</td>
+<td align="left">24 (23.3%)</td>
+<td align="left">48 (24.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">binary_factor</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">0. No</td>
+<td align="left">46 (47.4%)</td>
+<td align="left">47 (45.6%)</td>
+<td align="left">93 (46.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">1. Yes</td>
+<td align="left">51 (52.6%)</td>
+<td align="left">55 (53.4%)</td>
+<td align="left">106 (53.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">categorical</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">24 (23.3%)</td>
+<td align="left">47 (23.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">26 (26.8%)</td>
+<td align="left">16 (15.5%)</td>
+<td align="left">42 (21.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">25 (25.8%)</td>
+<td align="left">30 (29.1%)</td>
+<td align="left">55 (27.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">32 (31.1%)</td>
+<td align="left">55 (27.5%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
 </tr>
 </tbody>
 </table>
@@ -171,29 +279,30 @@
 <code>table1()</code> + <code>table1_numeric</code>
 <a class="anchor" aria-label="anchor" href="#table1--table1_numeric"></a>
 </h4>
-<p>Using the argument <code>render.continuous = table1_numeric</code> adds Median [IQR] and [Max, Min]:</p>
+<p>Using the argument <code>render.continuous = table1_numeric</code> adds Median [IQR] and [Max, Min], while <code>render.categorical = table1_categorical</code> summarizes the observed frequencies and tabulates the proportion of missing values separately:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
-<span>    render.continuous <span class="op">=</span> <span class="va">table1_numeric</span></span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
+<span>    render.continuous <span class="op">=</span> <span class="va">table1_numeric</span>,</span>
+<span>    render.categorical <span class="op">=</span> <span class="va">table1_categorical</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">Overall</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
-<td align="left">(N=1000)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
+<td align="left">(N=200)</td>
 </tr>
 <tr class="even">
 <td align="left">continuous</td>
@@ -203,57 +312,69 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.51 (0.29)</td>
-<td align="left">0.52 (0.28)</td>
-<td align="left">0.51 (0.28)</td>
+<td align="left">0.53 (0.3)</td>
+<td align="left">0.56 (0.29)</td>
+<td align="left">0.54 (0.29)</td>
 </tr>
 <tr class="even">
 <td align="left">Median [IQR]</td>
-<td align="left">0.51 (0.29)</td>
-<td align="left">0.53 (0.28)</td>
-<td align="left">0.52 (0.28)</td>
+<td align="left">0.51 (0.3)</td>
+<td align="left">0.6 (0.29)</td>
+<td align="left">0.59 (0.29)</td>
 </tr>
 <tr class="odd">
 <td align="left">[Min, Max]</td>
-<td align="left">[0, 1]</td>
 <td align="left">[0, 0.99]</td>
-<td align="left">[0, 1]</td>
+<td align="left">[0.01, 0.99]</td>
+<td align="left">[0, 0.99]</td>
 </tr>
 <tr class="even">
 <td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">492.08 (289.16)</td>
-<td align="left">509.02 (288.52)</td>
-<td align="left">500.5 (288.82)</td>
-</tr>
-<tr class="odd">
-<td align="left">Median [IQR]</td>
-<td align="left">490 (289.16)</td>
-<td align="left">509 (288.52)</td>
-<td align="left">500.5 (288.82)</td>
+<td align="left">100.05 (57.01)</td>
+<td align="left">101.42 (59.03)</td>
+<td align="left">100.75 (57.91)</td>
 </tr>
 <tr class="even">
-<td align="left">[Min, Max]</td>
-<td align="left">[5, 1000]</td>
-<td align="left">[1, 999]</td>
-<td align="left">[1, 1000]</td>
+<td align="left">Median [IQR]</td>
+<td align="left">100 (57.01)</td>
+<td align="left">103.5 (59.03)</td>
+<td align="left">101 (57.91)</td>
 </tr>
 <tr class="odd">
+<td align="left">[Min, Max]</td>
+<td align="left">[1, 200]</td>
+<td align="left">[2, 197]</td>
+<td align="left">[1, 200]</td>
+</tr>
+<tr class="even">
 <td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
 </tr>
 </tbody>
 </table>
@@ -262,8 +383,8 @@
 <code class="sourceCode R"><span><span class="co"># Only Mean/SD</span></span>
 <span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
 <span>    render.continuous <span class="op">=</span> </span>
 <span>      <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>        <span class="fu"><a href="reference/table1_numeric.html">table1_numeric</a></span><span class="op">(</span></span>
@@ -277,16 +398,16 @@
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">Overall</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
-<td align="left">(N=1000)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
+<td align="left">(N=200)</td>
 </tr>
 <tr class="even">
 <td align="left">continuous</td>
@@ -296,33 +417,45 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.51 (0.29)</td>
-<td align="left">0.52 (0.28)</td>
-<td align="left">0.51 (0.28)</td>
+<td align="left">0.53 (0.3)</td>
+<td align="left">0.56 (0.29)</td>
+<td align="left">0.54 (0.29)</td>
 </tr>
 <tr class="even">
 <td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="even">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">492.08 (289.16)</td>
-<td align="left">509.02 (288.52)</td>
-<td align="left">500.5 (288.82)</td>
+<td align="left">100.05 (57.01)</td>
+<td align="left">101.42 (59.03)</td>
+<td align="left">100.75 (57.91)</td>
+</tr>
+<tr class="even">
+<td align="left">Complete (N%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
 </tr>
 <tr class="odd">
-<td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
 </tr>
 </tbody>
 </table>
@@ -331,8 +464,8 @@
 <span><span class="co"># Only Mean/SD, 5% and 95% Quantiles</span></span>
 <span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">numbers</span> <span class="op">|</span> <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
 <span>    render.continuous <span class="op">=</span> </span>
 <span>      <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>        <span class="fu"><a href="reference/table1_numeric.html">table1_numeric</a></span><span class="op">(</span></span>
@@ -346,16 +479,16 @@
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">Overall</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
-<td align="left">(N=1000)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
+<td align="left">(N=200)</td>
 </tr>
 <tr class="even">
 <td align="left">continuous</td>
@@ -365,45 +498,57 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.51 (0.29)</td>
-<td align="left">0.52 (0.28)</td>
-<td align="left">0.51 (0.28)</td>
+<td align="left">0.53 (0.3)</td>
+<td align="left">0.56 (0.29)</td>
+<td align="left">0.54 (0.29)</td>
 </tr>
 <tr class="even">
 <td align="left">5%, 95%</td>
-<td align="left">0.04, 0.94</td>
-<td align="left">0.06, 0.95</td>
-<td align="left">0.05, 0.94</td>
+<td align="left">0.03, 0.97</td>
+<td align="left">0.09, 0.96</td>
+<td align="left">0.05, 0.97</td>
 </tr>
 <tr class="odd">
 <td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
 </tr>
 <tr class="even">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
+</tr>
+<tr class="odd">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Mean (SD)</td>
-<td align="left">492.08 (289.16)</td>
-<td align="left">509.02 (288.52)</td>
-<td align="left">500.5 (288.82)</td>
+<td align="left">100.05 (57.01)</td>
+<td align="left">101.42 (59.03)</td>
+<td align="left">100.75 (57.91)</td>
+</tr>
+<tr class="odd">
+<td align="left">5%, 95%</td>
+<td align="left">10.2, 189</td>
+<td align="left">12.05, 189.95</td>
+<td align="left">10.9, 190.1</td>
 </tr>
 <tr class="even">
-<td align="left">5%, 95%</td>
-<td align="left">52.3, 948.9</td>
-<td align="left">50.6, 950.2</td>
-<td align="left">50.95, 950.05</td>
+<td align="left">Complete (N%)</td>
+<td align="left">97 (100%)</td>
+<td align="left">102 (99.03%)</td>
+<td align="left">199 (99.5%)</td>
 </tr>
 <tr class="odd">
-<td align="left">Complete (N%)</td>
-<td align="left">503 (100%)</td>
-<td align="left">497 (100%)</td>
-<td align="left">1000 (100%)</td>
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">1 (0.5%)</td>
 </tr>
 </tbody>
 </table>
@@ -417,8 +562,9 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">table1</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">+</span> <span class="va">binary_factor</span> <span class="op">+</span></span>
+<span>      <span class="va">categorical</span> <span class="op">|</span> <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
 <span>    overall <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    extra.col <span class="op">=</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"p-value"</span> <span class="op">=</span> <span class="va">table1_pvalue</span><span class="op">)</span></span>
@@ -434,15 +580,15 @@
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">p-value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -453,32 +599,44 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">492 (289)</td>
-<td align="left">509 (289)</td>
-<td align="left">0.354</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">0.868</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">490 [5.00, 1000]</td>
-<td align="left">509 [1.00, 999]</td>
+<td align="left">100 [1.00, 200]</td>
+<td align="left">104 [2.00, 197]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">continuous</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.513 (0.287)</td>
-<td align="left">0.515 (0.282)</td>
-<td align="left">0.895</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.407</td>
+</tr>
+<tr class="even">
+<td align="left">Median [Min, Max]</td>
+<td align="left">0.510 [0.00114, 0.993]</td>
+<td align="left">0.601 [0.00599, 0.990]</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">Median [Min, Max]</td>
-<td align="left">0.515 [0.00114, 0.997]</td>
-<td align="left">0.527 [0.00425, 0.993]</td>
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -489,44 +647,116 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.491 (0.500)</td>
-<td align="left">0.535 (0.499)</td>
-<td align="left">0.163</td>
+<td align="left">0.546 (0.500)</td>
+<td align="left">0.578 (0.496)</td>
+<td align="left">0.651</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">0 [0, 1.00]</td>
+<td align="left">1.00 [0, 1.00]</td>
 <td align="left">1.00 [0, 1.00]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">ordered</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">1</td>
-<td align="left">136 (27.0%)</td>
-<td align="left">119 (23.9%)</td>
-<td align="left">0.725</td>
+<td align="left">29 (29.9%)</td>
+<td align="left">34 (33.0%)</td>
+<td align="left">0.263</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">15 (15.5%)</td>
+<td align="left">25 (24.3%)</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">2</td>
-<td align="left">112 (22.3%)</td>
-<td align="left">115 (23.1%)</td>
+<td align="left">3</td>
+<td align="left">28 (28.9%)</td>
+<td align="left">20 (19.4%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">3</td>
-<td align="left">121 (24.1%)</td>
-<td align="left">122 (24.5%)</td>
+<td align="left">4</td>
+<td align="left">24 (24.7%)</td>
+<td align="left">24 (23.3%)</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">binary_factor</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">0. No</td>
+<td align="left">46 (47.4%)</td>
+<td align="left">47 (45.6%)</td>
+<td align="left">0.962</td>
+</tr>
+<tr class="even">
+<td align="left">1. Yes</td>
+<td align="left">51 (52.6%)</td>
+<td align="left">55 (53.4%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">categorical</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">24 (23.3%)</td>
+<td align="left">0.24</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">26 (26.8%)</td>
+<td align="left">16 (15.5%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">25 (25.8%)</td>
+<td align="left">30 (29.1%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">4</td>
-<td align="left">134 (26.6%)</td>
-<td align="left">141 (28.4%)</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">32 (31.1%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
 <td align="left"></td>
 </tr>
 </tbody>
@@ -535,8 +765,9 @@
 <code class="sourceCode R"><span></span>
 <span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">table1</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">|</span> <span class="va">categorical</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">+</span> <span class="va">binary_factor</span> <span class="op">+</span></span>
+<span>      <span class="va">categorical</span> <span class="op">|</span> <span class="va">three_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
 <span>    overall <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    extra.col <span class="op">=</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"p-value"</span> <span class="op">=</span> <span class="va">table1_pvalue</span><span class="op">)</span></span>
@@ -545,28 +776,25 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="15%">
 <col width="19%">
-<col width="19%">
-<col width="19%">
-<col width="19%">
-<col width="6%">
+<col width="24%">
+<col width="24%">
+<col width="24%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">1</th>
-<th align="left">2</th>
-<th align="left">3</th>
-<th align="left">4</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
+<th align="left">Group 3</th>
 <th align="left">p-value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=240)</td>
-<td align="left">(N=269)</td>
-<td align="left">(N=253)</td>
-<td align="left">(N=238)</td>
+<td align="left">(N=67)</td>
+<td align="left">(N=70)</td>
+<td align="left">(N=63)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -575,46 +803,54 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">475 (290)</td>
-<td align="left">505 (290)</td>
-<td align="left">523 (285)</td>
-<td align="left">496 (290)</td>
-<td align="left">0.326</td>
+<td align="left">103 (61.3)</td>
+<td align="left">97.7 (52.6)</td>
+<td align="left">101 (60.6)</td>
+<td align="left">0.85</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">463 [3.00, 996]</td>
-<td align="left">488 [1.00, 987]</td>
-<td align="left">539 [2.00, 997]</td>
-<td align="left">494 [6.00, 1000]</td>
+<td align="left">107 [1.00, 197]</td>
+<td align="left">99.5 [7.00, 185]</td>
+<td align="left">98.0 [3.00, 200]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.6%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">continuous</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Mean (SD)</td>
-<td align="left">0.508 (0.283)</td>
-<td align="left">0.497 (0.295)</td>
-<td align="left">0.556 (0.282)</td>
-<td align="left">0.494 (0.273)</td>
-<td align="left">0.0492</td>
 </tr>
 <tr class="odd">
+<td align="left">Mean (SD)</td>
+<td align="left">0.521 (0.321)</td>
+<td align="left">0.555 (0.282)</td>
+<td align="left">0.553 (0.280)</td>
+<td align="left">0.756</td>
+</tr>
+<tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">0.508 [0.00693, 0.997]</td>
-<td align="left">0.517 [0.00425, 0.995]</td>
-<td align="left">0.598 [0.00946, 0.996]</td>
-<td align="left">0.512 [0.00114, 0.990]</td>
+<td align="left">0.509 [0.00693, 0.990]</td>
+<td align="left">0.600 [0.00114, 0.970]</td>
+<td align="left">0.609 [0.00865, 0.993]</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.4%)</td>
+<td align="left">0 (0%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -623,62 +859,138 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.504 (0.501)</td>
-<td align="left">0.487 (0.501)</td>
-<td align="left">0.534 (0.500)</td>
-<td align="left">0.529 (0.500)</td>
-<td align="left">0.686</td>
+<td align="left">0.552 (0.501)</td>
+<td align="left">0.507 (0.504)</td>
+<td align="left">0.635 (0.485)</td>
+<td align="left">0.332</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
 <td align="left">1.00 [0, 1.00]</td>
-<td align="left">0 [0, 1.00]</td>
 <td align="left">1.00 [0, 1.00]</td>
 <td align="left">1.00 [0, 1.00]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.4%)</td>
+<td align="left">0 (0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">ordered</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">1</td>
-<td align="left">77 (32.1%)</td>
-<td align="left">57 (21.2%)</td>
-<td align="left">62 (24.5%)</td>
-<td align="left">59 (24.8%)</td>
-<td align="left">0.155</td>
+<td align="left">13 (19.4%)</td>
+<td align="left">29 (41.4%)</td>
+<td align="left">21 (33.3%)</td>
+<td align="left">0.00748</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">21 (31.3%)</td>
+<td align="left">11 (15.7%)</td>
+<td align="left">8 (12.7%)</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">2</td>
-<td align="left">54 (22.5%)</td>
-<td align="left">66 (24.5%)</td>
-<td align="left">57 (22.5%)</td>
-<td align="left">50 (21.0%)</td>
+<td align="left">3</td>
+<td align="left">14 (20.9%)</td>
+<td align="left">20 (28.6%)</td>
+<td align="left">14 (22.2%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">3</td>
-<td align="left">54 (22.5%)</td>
-<td align="left">76 (28.3%)</td>
-<td align="left">56 (22.1%)</td>
-<td align="left">57 (23.9%)</td>
+<td align="left">4</td>
+<td align="left">18 (26.9%)</td>
+<td align="left">10 (14.3%)</td>
+<td align="left">20 (31.7%)</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">1 (1.5%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">binary_factor</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">0. No</td>
+<td align="left">26 (38.8%)</td>
+<td align="left">40 (57.1%)</td>
+<td align="left">27 (42.9%)</td>
+<td align="left">0.0825</td>
+</tr>
+<tr class="even">
+<td align="left">1. Yes</td>
+<td align="left">41 (61.2%)</td>
+<td align="left">30 (42.9%)</td>
+<td align="left">35 (55.6%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.6%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">categorical</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">18 (26.9%)</td>
+<td align="left">15 (21.4%)</td>
+<td align="left">14 (22.2%)</td>
+<td align="left">0.364</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">13 (19.4%)</td>
+<td align="left">12 (17.1%)</td>
+<td align="left">17 (27.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">22 (32.8%)</td>
+<td align="left">18 (25.7%)</td>
+<td align="left">15 (23.8%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">4</td>
-<td align="left">55 (22.9%)</td>
-<td align="left">70 (26.0%)</td>
-<td align="left">78 (30.8%)</td>
-<td align="left">72 (30.3%)</td>
+<td align="left">13 (19.4%)</td>
+<td align="left">25 (35.7%)</td>
+<td align="left">17 (27.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">1 (1.5%)</td>
+<td align="left">0 (0%)</td>
+<td align="left">0 (0%)</td>
 <td align="left"></td>
 </tr>
 </tbody>
@@ -687,8 +999,9 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_table</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">table1</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1</a></span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">|</span> <span class="va">binary_factor</span>,</span>
-<span>    data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>    x <span class="op">=</span> <span class="op">~</span> <span class="va">numbers</span> <span class="op">+</span> <span class="va">continuous</span> <span class="op">+</span> <span class="va">binary</span> <span class="op">+</span> <span class="va">ordered</span> <span class="op">+</span> <span class="va">binary_factor</span> <span class="op">+</span></span>
+<span>      <span class="va">categorical</span> <span class="op">|</span> <span class="va">two_level_group</span>,</span>
+<span>    data <span class="op">=</span> <span class="va">jfbr_test</span>,</span>
 <span>    overall <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>    extra.col <span class="op">=</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"p-value"</span> <span class="op">=</span></span>
@@ -713,15 +1026,15 @@
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">0. No</th>
-<th align="left">1. Yes</th>
+<th align="left">Group 1</th>
+<th align="left">Group 2</th>
 <th align="left">p-value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">(N=503)</td>
-<td align="left">(N=497)</td>
+<td align="left">(N=97)</td>
+<td align="left">(N=103)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -732,32 +1045,44 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">492 (289)</td>
-<td align="left">509 (289)</td>
-<td align="left">0.354</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">0.866</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">490 [5.00, 1000]</td>
-<td align="left">509 [1.00, 999]</td>
+<td align="left">100 [1.00, 200]</td>
+<td align="left">104 [2.00, 197]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">continuous</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.513 (0.287)</td>
-<td align="left">0.515 (0.282)</td>
-<td align="left">0.904</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.377</td>
+</tr>
+<tr class="even">
+<td align="left">Median [Min, Max]</td>
+<td align="left">0.510 [0.00114, 0.993]</td>
+<td align="left">0.601 [0.00599, 0.990]</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">Median [Min, Max]</td>
-<td align="left">0.515 [0.00114, 0.997]</td>
-<td align="left">0.527 [0.00425, 0.993]</td>
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
@@ -768,44 +1093,116 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.491 (0.500)</td>
-<td align="left">0.535 (0.499)</td>
-<td align="left">0.163</td>
+<td align="left">0.546 (0.500)</td>
+<td align="left">0.578 (0.496)</td>
+<td align="left">0.651</td>
 </tr>
 <tr class="even">
 <td align="left">Median [Min, Max]</td>
-<td align="left">0 [0, 1.00]</td>
+<td align="left">1.00 [0, 1.00]</td>
 <td align="left">1.00 [0, 1.00]</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">ordered</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">1</td>
-<td align="left">136 (27.0%)</td>
-<td align="left">119 (23.9%)</td>
-<td align="left">0.724</td>
+<td align="left">29 (29.9%)</td>
+<td align="left">34 (33.0%)</td>
+<td align="left">0.266</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">15 (15.5%)</td>
+<td align="left">25 (24.3%)</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left">2</td>
-<td align="left">112 (22.3%)</td>
-<td align="left">115 (23.1%)</td>
+<td align="left">3</td>
+<td align="left">28 (28.9%)</td>
+<td align="left">20 (19.4%)</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left">3</td>
-<td align="left">121 (24.1%)</td>
-<td align="left">122 (24.5%)</td>
+<td align="left">4</td>
+<td align="left">24 (24.7%)</td>
+<td align="left">24 (23.3%)</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
+<td align="left">Missing</td>
+<td align="left">1 (1.0%)</td>
+<td align="left">0 (0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">binary_factor</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">0. No</td>
+<td align="left">46 (47.4%)</td>
+<td align="left">47 (45.6%)</td>
+<td align="left">0.888</td>
+</tr>
+<tr class="even">
+<td align="left">1. Yes</td>
+<td align="left">51 (52.6%)</td>
+<td align="left">55 (53.4%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">categorical</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">24 (23.3%)</td>
+<td align="left">0.241</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">26 (26.8%)</td>
+<td align="left">16 (15.5%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">25 (25.8%)</td>
+<td align="left">30 (29.1%)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
 <td align="left">4</td>
-<td align="left">134 (26.6%)</td>
-<td align="left">141 (28.4%)</td>
+<td align="left">23 (23.7%)</td>
+<td align="left">32 (31.1%)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Missing</td>
+<td align="left">0 (0%)</td>
+<td align="left">1 (1.0%)</td>
 <td align="left"></td>
 </tr>
 </tbody>
