@@ -22,10 +22,21 @@
 #' @export
 #'
 #' @examples
+#'
 #' table1_numeric(
 #'   x = c(1:100, NA),
 #'   quantiles = c(0.05, 0.95)
 #' )
+#'
+#' data(jfbr_test)
+#' library(table1)
+#'
+#'   table1(
+#'     x = ~ continuous + numbers | two_level_group,
+#'     data = jfbr_test,
+#'     render.continuous = table1_numeric
+#'   )
+
 
 table1_numeric <-
   function(

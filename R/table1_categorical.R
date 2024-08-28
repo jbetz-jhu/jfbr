@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @examples
+#' library(table1)
 #'
 #' table1(
 #'   x = ~ ordered + binary_factor + categorical | two_level_group,

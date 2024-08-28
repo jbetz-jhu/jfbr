@@ -20,6 +20,7 @@ Tabulations for \code{\link[table1:table1]{table1::table1()}}
 Summary Functions for table1::table1() for Numeric Data
 }
 \examples{
+library(table1)
 
 table1(
   x = ~ ordered + binary_factor + categorical | two_level_group,

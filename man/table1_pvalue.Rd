@@ -56,17 +56,20 @@ table1::table1() has the ability to add a column for hypothesis test
 p-values: see ?table1::table1.
 }
 \examples{
+library(table1)
 
-table1::table1(
-  x = ~ numbers + continuous + binary + ordered | group_two_level,
+data(jfbr_test)
+
+table1(
+  x = ~ numbers + continuous + binary + ordered | two_level_group,
   data = jfbr_test,
   overall = FALSE,
   extra.col =
     list("p-value" = table1_pvalue)
 )
 
-table1::table1(
-  x = ~ numbers + continuous + binary + ordered | group_three_level,
+table1(
+  x = ~ numbers + continuous + binary + ordered | three_level_group,
   data = jfbr_test,
   overall = FALSE,
   extra.col =
@@ -76,8 +79,8 @@ table1::table1(
              variable = variable,
              test_numeric_2_levels = wilcox.test,
              test_numeric_more_than_2_levels = kruskal.test,
-             test_categorical_2_levels = fisher.test,
-             test_categorical_more_than_2_levels = fisher.test
+             test_categorical_2_levels = chisq.test,
+             test_categorical_more_than_2_levels = chisq.test
            )
     )
 )
