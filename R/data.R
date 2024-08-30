@@ -7,7 +7,7 @@
 #' Two grouping variables are included with no missing values, since missing
 #' values in grouping variables creates an error in [table1::table1()].
 #'
-#' @format ## `jfbr_test `
+#' @format ## `jfbr_test`
 #' A data frame with 200 rows and 8 columns:
 #' \describe{
 #'   \item{numbers}{Participant ID}

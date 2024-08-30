@@ -10,10 +10,7 @@ table1_numeric(
   median_iqr = TRUE,
   range = TRUE,
   quantiles = NULL,
-  completeness = TRUE,
-  na.rm = TRUE,
-  quantile_type = 7,
-  digits = 2
+  ...
 )
 }
 \arguments{
@@ -28,15 +25,7 @@ table1_numeric(
 \item{quantiles}{A \code{vector} of \code{numeric} values: Quantiles to
 compute}
 
-\item{completeness}{A \code{logical} scalar: Compute completeness?}
-
-\item{na.rm}{\code{logical} scalar: Remove \code{NA} values?}
-
-\item{quantile_type}{A \code{numeric} scalar, indicating the method of
-computing quantiles with \code{\link[stats:quantile]{stats::quantile()}}.}
-
-\item{digits}{A \code{numeric} scalar, indicating the number of significant
-figures to include in results.}
+\item{...}{Arguments passed to \code{\link[=stats_jfbr]{stats_jfbr()}}}
 }
 \value{
 A \code{vector} of character-formatted results

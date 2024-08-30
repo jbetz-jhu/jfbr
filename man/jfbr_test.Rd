@@ -5,7 +5,7 @@
 \alias{jfbr_test}
 \title{jfbr_test: Example data for testing functions.}
 \format{
-\subsection{\code{jfbr_test }}{
+\subsection{\code{jfbr_test}}{
 
 A data frame with 200 rows and 8 columns:
 \describe{
