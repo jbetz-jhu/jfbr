@@ -49,10 +49,7 @@ more flexibility in terms of summaries.</p>
 <span>  median_iqr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  range <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  quantiles <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  completeness <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  quantile_type <span class="op">=</span> <span class="fl">7</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -81,22 +78,8 @@ more flexibility in terms of summaries.</p>
 compute</p></dd>
 
 
-<dt id="arg-completeness">completeness<a class="anchor" aria-label="anchor" href="#arg-completeness"></a></dt>
-<dd><p>A <code>logical</code> scalar: Compute completeness?</p></dd>
-
-
-<dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
-<dd><p><code>logical</code> scalar: Remove <code>NA</code> values?</p></dd>
-
-
-<dt id="arg-quantile-type">quantile_type<a class="anchor" aria-label="anchor" href="#arg-quantile-type"></a></dt>
-<dd><p>A <code>numeric</code> scalar, indicating the method of
-computing quantiles with <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">stats::quantile()</a></code>.</p></dd>
-
-
-<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
-<dd><p>A <code>numeric</code> scalar, indicating the number of significant
-figures to include in results.</p></dd>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Arguments passed to <code><a href="stats_jfbr.html">stats_jfbr()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -111,10 +94,10 @@ figures to include in results.</p></dd>
 <span class="r-in"><span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.95</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     Mean (SD)   Median [IQR]     [Min, Max]        5%, 95% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             "" "50.5 (29.01)" "50.5 (29.01)"     "[1, 100]"  "5.95, 95.05" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Complete (N%) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "100 (99.01%)" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               Mean (SD)        Median [IQR]          [Min, Max] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  ""       "50.5 (29.0)" "50.5 [25.8, 75.3]"       "[1.00, 100]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             5%, 95% </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        "5.95, 95.1" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">jfbr_test</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/benjaminrich/table1" class="external-link">table1</a></span><span class="op">)</span></span></span>
@@ -142,27 +125,21 @@ figures to include in results.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Mean (SD)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.53 (0.3)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.56 (0.29)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.54 (0.29)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.525 (0.297)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.560 (0.291)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.543 (0.294)&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Median [IQR]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.51 (0.3)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.6 (0.29)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.59 (0.29)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.510 [0.294, 0.757]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.601 [0.317, 0.811]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;0.588 [0.306, 0.795]&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;[Min, Max]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0, 0.99]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0.01, 0.99]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0, 0.99]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Complete (N%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;97 (100%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;102 (99.03%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;199 (99.5%)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0.00114, 0.993]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0.00599, 0.990]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[0.00114, 0.993]&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel lastrow'&gt;Missing&lt;/td&gt;</span>
@@ -178,27 +155,21 @@ figures to include in results.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Mean (SD)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;100.05 (57.01)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;101.42 (59.03)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;100.75 (57.91)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;100 (57.0)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;101 (59.0)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;101 (57.9)&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Median [IQR]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;100 (57.01)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;103.5 (59.03)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;101 (57.91)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;100 [56.0, 146]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;104 [49.5, 154]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;101 [51.5, 151]&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;[Min, Max]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[1, 200]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[2, 197]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[1, 200]&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel'&gt;Complete (N%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;97 (100%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;102 (99.03%)&lt;/td&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;199 (99.5%)&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[1.00, 200]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[2.00, 197]&lt;/td&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td&gt;[1.00, 200]&lt;/td&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;tr&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;td class='rowlabel lastrow'&gt;Missing&lt;/td&gt;</span>
