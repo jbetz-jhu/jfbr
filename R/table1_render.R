@@ -10,7 +10,25 @@
 #' @export
 #'
 #' @examples
-#' # To be added
+#' table1::table1(
+#'   x = ~ numbers + continuous + binary + ordered +
+#'     binary_factor + categorical | three_level_group,
+#'   data = jfbr_test,
+#'   render = table1_render
+#' )
+#'
+#' table1::table1(
+#'   x = ~ numbers + continuous + binary + ordered +
+#'     binary_factor + categorical | three_level_group,
+#'   data = jfbr_test,
+#'   render =
+#     function(...) table1_render(
+#'       numeric = render.continuous.default,
+#'       categorical = render.categorical.default,
+#'       ...
+#'     )
+#' )
+
 
 table1_render <-
   function(
