@@ -22,7 +22,7 @@
 #'     binary_factor + categorical | three_level_group,
 #'   data = jfbr_test,
 #'   render =
-#     function(...) table1_render(
+#'     function(...) table1_render(
 #'       numeric = render.continuous.default,
 #'       categorical = render.categorical.default,
 #'       ...
