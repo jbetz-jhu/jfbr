@@ -23,8 +23,8 @@
 #'   data = jfbr_test,
 #'   render =
 #'     function(...) table1_render(
-#'       numeric = render.continuous.default,
-#'       categorical = render.categorical.default,
+#'       numeric = table1::render.continuous.default,
+#'       categorical = table1::render.categorical.default,
 #'       ...
 #'     )
 #' )

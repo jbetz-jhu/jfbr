@@ -34,8 +34,9 @@ table1::table1(
     binary_factor + categorical | three_level_group,
   data = jfbr_test,
   render =
-      numeric = render.continuous.default,
-      categorical = render.categorical.default,
+    function(...) table1_render(
+      numeric = table1::render.continuous.default,
+      categorical = table1::render.categorical.default,
       ...
     )
 )
