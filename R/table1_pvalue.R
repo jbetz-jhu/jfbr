@@ -79,6 +79,8 @@ table1_pvalue <-
     digits = 3
   ) {
 
+    x <- x[which(sapply(X = x, FUN = length) > 0)]
+
     group_labels <- names(x)
 
     # Construct vectors of data y, and groups (strata) g

@@ -218,7 +218,7 @@ test_that(
               table1_pvalue(x = x, variable = variable))
         ) |>
         data.frame() |>
-        get(x = "p.value") |>
+        get(x = "Var.5") |>
         as.numeric() |>
         na.omit() |>
         as.numeric(),
@@ -232,7 +232,7 @@ test_that(
               table1_pvalue(x = x, variable = variable))
         ) |>
         data.frame() |>
-        get(x = "p.value") |>
+        get(x = "Var.5") |>
         as.numeric() |>
         na.omit() |>
         as.numeric()
