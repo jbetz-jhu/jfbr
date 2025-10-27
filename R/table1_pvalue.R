@@ -79,6 +79,8 @@ table1_pvalue <-
     digits = 3
   ) {
 
+    x <- x[which(sapply(X = x, FUN = length) > 0)]
+
     group_labels <- names(x)
 
     # Construct vectors of data y, and groups (strata) g
@@ -126,7 +128,7 @@ table1_pvalue <-
             what = test_categorical_more_than_2_levels,
             args =
               list(
-                x = table(y, g)
+                x = table(droplevels(y), g)
               )
           )$p.value
       }
@@ -147,7 +149,7 @@ table1_pvalue <-
             what = test_categorical_2_levels,
             args =
               list(
-                x = table(y, g)
+                x = table(droplevels(y), g)
               )
           )$p.value
       }
