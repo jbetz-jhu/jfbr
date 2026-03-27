@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Miscellaneous R Workflow Functions • jfbr</title>
+<title>What the Package Does (One Line, Title Case) • jfbr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Miscellaneous R Workflow Functions">
-<meta name="description" content="A suite of miscellaneous R functions for an analysis workflow.">
-<meta property="og:description" content="A suite of miscellaneous R functions for an analysis workflow.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="What the Package Does (One Line, Title Case)">
+<meta name="description" content="Miscellaneous functions for a statistical workflow.">
+<meta property="og:description" content="Miscellaneous functions for a statistical workflow.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -37,6 +37,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jbetz-jhu/jfbr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -66,14 +67,15 @@
 </h3>
 <p>Convenience functions have been added for the <code><a href="https://rdrr.io/pkg/table1/man/table1.html" class="external-link">table1::table1()</a></code> function to make it easier to do different summaries and add hypothesis testing.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jbetz-jhu.github.io/jfbr/">jfbr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jbetz-jhu/jfbr" class="external-link">jfbr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/benjaminrich/table1" class="external-link">table1</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'table1'</span></span>
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     units, units&lt;-</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'knitr' was built under R version 4.5.2</span></span></code></pre></div>
 <p>The package includes an example dataset <code>jfbr_test</code> which is used in the examples below:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">jfbr_test</span><span class="op">)</span></span>
@@ -109,10 +111,10 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="21%">
-<col width="26%">
-<col width="26%">
-<col width="26%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
@@ -291,6 +293,12 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="left">Group 1</th>
@@ -312,63 +320,51 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.53 (0.3)</td>
-<td align="left">0.56 (0.29)</td>
-<td align="left">0.54 (0.29)</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.543 (0.294)</td>
 </tr>
 <tr class="even">
 <td align="left">Median [IQR]</td>
-<td align="left">0.51 (0.3)</td>
-<td align="left">0.6 (0.29)</td>
-<td align="left">0.59 (0.29)</td>
+<td align="left">0.510 [0.294, 0.757]</td>
+<td align="left">0.601 [0.317, 0.811]</td>
+<td align="left">0.588 [0.306, 0.795]</td>
 </tr>
 <tr class="odd">
 <td align="left">[Min, Max]</td>
-<td align="left">[0, 0.99]</td>
-<td align="left">[0.01, 0.99]</td>
-<td align="left">[0, 0.99]</td>
+<td align="left">[0.00114, 0.993]</td>
+<td align="left">[0.00599, 0.990]</td>
+<td align="left">[0.00114, 0.993]</td>
 </tr>
 <tr class="even">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
-</tr>
-<tr class="odd">
 <td align="left">Missing</td>
 <td align="left">0 (0%)</td>
 <td align="left">1 (1.0%)</td>
 <td align="left">1 (0.5%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Mean (SD)</td>
-<td align="left">100.05 (57.01)</td>
-<td align="left">101.42 (59.03)</td>
-<td align="left">100.75 (57.91)</td>
-</tr>
-<tr class="even">
-<td align="left">Median [IQR]</td>
-<td align="left">100 (57.01)</td>
-<td align="left">103.5 (59.03)</td>
-<td align="left">101 (57.91)</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">101 (57.9)</td>
 </tr>
 <tr class="odd">
-<td align="left">[Min, Max]</td>
-<td align="left">[1, 200]</td>
-<td align="left">[2, 197]</td>
-<td align="left">[1, 200]</td>
+<td align="left">Median [IQR]</td>
+<td align="left">100 [56.0, 146]</td>
+<td align="left">104 [49.5, 154]</td>
+<td align="left">101 [51.5, 151]</td>
 </tr>
 <tr class="even">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
+<td align="left">[Min, Max]</td>
+<td align="left">[1.00, 200]</td>
+<td align="left">[2.00, 197]</td>
+<td align="left">[1.00, 200]</td>
 </tr>
 <tr class="odd">
 <td align="left">Missing</td>
@@ -417,39 +413,27 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.53 (0.3)</td>
-<td align="left">0.56 (0.29)</td>
-<td align="left">0.54 (0.29)</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.543 (0.294)</td>
 </tr>
 <tr class="even">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
-</tr>
-<tr class="odd">
 <td align="left">Missing</td>
 <td align="left">0 (0%)</td>
 <td align="left">1 (1.0%)</td>
 <td align="left">1 (0.5%)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="odd">
-<td align="left">Mean (SD)</td>
-<td align="left">100.05 (57.01)</td>
-<td align="left">101.42 (59.03)</td>
-<td align="left">100.75 (57.91)</td>
-</tr>
 <tr class="even">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
+<td align="left">Mean (SD)</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">101 (57.9)</td>
 </tr>
 <tr class="odd">
 <td align="left">Missing</td>
@@ -498,51 +482,39 @@
 </tr>
 <tr class="odd">
 <td align="left">Mean (SD)</td>
-<td align="left">0.53 (0.3)</td>
-<td align="left">0.56 (0.29)</td>
-<td align="left">0.54 (0.29)</td>
+<td align="left">0.525 (0.297)</td>
+<td align="left">0.560 (0.291)</td>
+<td align="left">0.543 (0.294)</td>
 </tr>
 <tr class="even">
 <td align="left">5%, 95%</td>
-<td align="left">0.03, 0.97</td>
-<td align="left">0.09, 0.96</td>
-<td align="left">0.05, 0.97</td>
+<td align="left">0.0343, 0.967</td>
+<td align="left">0.0900, 0.964</td>
+<td align="left">0.0544, 0.966</td>
 </tr>
 <tr class="odd">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
-</tr>
-<tr class="even">
 <td align="left">Missing</td>
 <td align="left">0 (0%)</td>
 <td align="left">1 (1.0%)</td>
 <td align="left">1 (0.5%)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">numbers</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
-<tr class="even">
-<td align="left">Mean (SD)</td>
-<td align="left">100.05 (57.01)</td>
-<td align="left">101.42 (59.03)</td>
-<td align="left">100.75 (57.91)</td>
-</tr>
 <tr class="odd">
+<td align="left">Mean (SD)</td>
+<td align="left">100 (57.0)</td>
+<td align="left">101 (59.0)</td>
+<td align="left">101 (57.9)</td>
+</tr>
+<tr class="even">
 <td align="left">5%, 95%</td>
 <td align="left">10.2, 189</td>
-<td align="left">12.05, 189.95</td>
-<td align="left">10.9, 190.1</td>
-</tr>
-<tr class="even">
-<td align="left">Complete (N%)</td>
-<td align="left">97 (100%)</td>
-<td align="left">102 (99.03%)</td>
-<td align="left">199 (99.5%)</td>
+<td align="left">12.1, 190</td>
+<td align="left">10.9, 190</td>
 </tr>
 <tr class="odd">
 <td align="left">Missing</td>
@@ -571,18 +543,18 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="25%">
-<col width="31%">
-<col width="31%">
-<col width="10%">
+<col width="26%">
+<col width="32%">
+<col width="32%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="left">Group 1</th>
 <th align="left">Group 2</th>
-<th align="left">p-value</th>
+<th align="left"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -776,18 +748,18 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="19%">
-<col width="24%">
-<col width="24%">
-<col width="24%">
-<col width="8%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="left">Group 1</th>
 <th align="left">Group 2</th>
 <th align="left">Group 3</th>
-<th align="left">p-value</th>
+<th align="left"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1017,18 +989,18 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span></span></code></pre></div>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="25%">
-<col width="31%">
-<col width="31%">
-<col width="10%">
+<col width="26%">
+<col width="32%">
+<col width="32%">
+<col width="8%">
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
 <th align="left">Group 1</th>
 <th align="left">Group 2</th>
-<th align="left">p-value</th>
+<th align="left"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1211,7 +1183,14 @@
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jbetz-jhu/jfbr/" class="external-link">Browse source code</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -1247,6 +1226,7 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/jbetz-jhu/impart/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jbetz-jhu/impart/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/jbetz-jhu/jfbr" class="external-link"><img src="https://codecov.io/gh/jbetz-jhu/jfbr/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/jbetz-jhu/jfbr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jbetz-jhu/jfbr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
@@ -1259,7 +1239,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
