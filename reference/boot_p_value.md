@@ -72,6 +72,13 @@ boot_p_value(
   A `numeric` scalar indicating the maximum number of iterations to
   perform
 
+- asymptotic_extreme_z:
+
+  A `logical` scalar, indicating whether a p-value should be computed
+  assuming asymptotic normality using a Wald Z-score using \\Z =
+  (\hat{\theta} - \theta\_{0})/SE\_{B}(\hat{\theta})\\ where
+  \\SE\_{B}(\hat{\theta})\\ is the bootstrap standard error.
+
 - verbose:
 
   A `logical` scalar, indicating whether to only return the *p*-value

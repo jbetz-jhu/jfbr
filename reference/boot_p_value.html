@@ -112,6 +112,13 @@ assessing convergence</p></dd>
 of iterations to perform</p></dd>
 
 
+<dt id="arg-asymptotic-extreme-z">asymptotic_extreme_z<a class="anchor" aria-label="anchor" href="#arg-asymptotic-extreme-z"></a></dt>
+<dd><p>A <code>logical</code> scalar, indicating whether a
+p-value should be computed assuming asymptotic normality using a Wald Z-score
+using \(Z = (\hat{\theta} - \theta_{0})/SE_{B}(\hat{\theta})\) where
+\(SE_{B}(\hat{\theta})\) is the bootstrap standard error.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>A <code>logical</code> scalar, indicating whether to only return
 the <em>p</em>-value (<code>FALSE</code>: default), or return the results of each
