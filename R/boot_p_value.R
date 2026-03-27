@@ -86,6 +86,7 @@ boot_p_value <-
     alpha_min = 10^-5,
     tolerance = 0.0001,
     max_evaluations = 30,
+    asymptotic_extreme_z = TRUE,
     verbose = FALSE
   ){
     if(!inherits(x = boot_object, what = "boot")){
@@ -104,6 +105,18 @@ boot_p_value <-
       )
     }
 
+    alternative <- tolower(substr(x = alternative[1], start = 1, stop = 3))
+    if(!(alternative %in% c("two", "gre", "les"))){
+      stop("`alternative` should be one of \"two-sided\", \"greater\", or ",
+           "\"less\".")
+    } else if(alternative == "two"){
+      alpha_scale <- 1
+      test_sides <- 2
+    } else if(alternative %in% c("gre", "les")){
+      alpha_scale <- 2
+      test_sides <- 1
+    }
+
     z_stat <-
       with(data = boot_object, expr = (t0[index] - null_value)/sd(t[, index]))
     if(abs(z_stat) > z_stat_threshold){
@@ -113,174 +126,184 @@ boot_p_value <-
         "absolute value of test statistic is greater than |", z_stat_threshold,
         "|."
       )
+      extreme_z <- TRUE
+    } else {
+      extreme_z <- FALSE
     }
 
-    if(
-      !all(
-        length(ci_method) == 1,
-        class(ci_method) == "character"
-      )
-    ){
-      stop(
-        "`ci_method` must have class \"character\" with length 1. ",
-        "Currently, length(ci_method) = ", length(ci_method),
-        " and class(ci_method) = \"", class(ci_method), "\""
-      )
-    } else if(!ci_method %in% c("norm", "basic", "perc", "bca")){
-      stop("`ci_method` must be one of \"basic\", \"perc\", or ",
-           "\"bca\".")
-    }
+    if(asymptotic_extreme_z & extreme_z){
+      wald_p_value <-
+        2^(test_sides == 2)*
+        pnorm(
+          q = ifelse(test_sides == 2, yes = -abs(z_stat), no = z_stat),
+          lower.tail = alternative %in% c("les", "two")
+        )
+      message("Wald approximation used for p-value.")
 
-    ci_type <-
-      switch(
-        EXPR = ci_method,
-        "norm" = "normal",
-        "basic" = "basic",
-        "perc" = "percent",
-        "bca" = "bca"
-      )
+      return(wald_p_value)
+    } else {
 
-    alternative <- tolower(substr(x = alternative[1], start = 1, stop = 3))
-    if(!(alternative %in% c("two", "gre", "les"))){
-      stop("`alternative` should be one of \"two-sided\", \"greater\", or ",
-           "\"less\".")
-    } else if(alternative == "two"){
-      alpha_scale <- 1
-    } else if(alternative %in% c("gre", "les")){
-      alpha_scale <- 2
-    }
+      if(
+        !all(
+          length(ci_method) == 1,
+          class(ci_method) == "character"
+        )
+      ){
+        stop(
+          "`ci_method` must have class \"character\" with length 1. ",
+          "Currently, length(ci_method) = ", length(ci_method),
+          " and class(ci_method) = \"", class(ci_method), "\""
+        )
+      } else if(!ci_method %in% c("norm", "basic", "perc", "bca")){
+        stop("`ci_method` must be one of \"basic\", \"perc\", or ",
+             "\"bca\".")
+      }
 
-    converged <- FALSE
-    continue <- TRUE
-    j <- n_rejected <- n_fail_to_reject <- 0
-    all_ci_results <-
-      data.frame(
-        alpha = rep(NA, max_evaluations),
-        confidence = NA,
-        lcl = NA,
-        ucl = NA,
-        rejected = NA
-      )
-    current_min <- alpha_min
-    current_max <- alpha_max
-    current_alpha <- mean(c(alpha_max, alpha_min))
-
-    while(continue) {
-      j <- j + 1
-
-      all_ci_results$alpha[j] <- current_alpha
-      all_ci_results$confidence[j] <- 1 - current_alpha
-
-      ci_result <-
-        boot::boot.ci(
-          boot.out = boot_object,
-          conf = 1 - current_alpha*alpha_scale,
-          type = ci_method,
-          index = index
+      ci_type <-
+        switch(
+          EXPR = ci_method,
+          "norm" = "normal",
+          "basic" = "basic",
+          "perc" = "percent",
+          "bca" = "bca"
         )
 
-      ci_method_name <-
-        setdiff(
-          x = names(ci_result),
-          y = c("R", "t0", "call")
+
+
+      converged <- FALSE
+      continue <- TRUE
+      j <- n_rejected <- n_fail_to_reject <- 0
+      all_ci_results <-
+        data.frame(
+          alpha = rep(NA, max_evaluations),
+          confidence = NA,
+          lcl = NA,
+          ucl = NA,
+          rejected = NA
         )
+      current_min <- alpha_min
+      current_max <- alpha_max
+      current_alpha <- mean(c(alpha_max, alpha_min))
 
-      ci_unadjusted <-
-        utils::tail(x = ci_result[[ci_type]][1,], n = 2)
+      while(continue) {
+        j <- j + 1
 
-      if(var_adjust == 1) {
-        ci_adjusted <- ci_unadjusted
-      } else {
-        ci_adjusted <-
-          boot_object$t0[index] +
-          sqrt(var_adjust)*(ci_unadjusted - boot_object$t0[index])
-      }
+        all_ci_results$alpha[j] <- current_alpha
+        all_ci_results$confidence[j] <- 1 - current_alpha
 
-      if(alternative == "les"){
-        ci_adjusted <- c(-Inf, ci_adjusted[2])
-      } else if(alternative == "gre"){
-        ci_adjusted <- c(ci_adjusted[1], Inf)
-      }
+        ci_result <-
+          boot::boot.ci(
+            boot.out = boot_object,
+            conf = 1 - current_alpha*alpha_scale,
+            type = ci_method,
+            index = index
+          )
 
-      all_ci_results[j, c("lcl", "ucl")] <- ci_adjusted
+        ci_method_name <-
+          setdiff(
+            x = names(ci_result),
+            y = c("R", "t0", "call")
+          )
 
-      rejected_greater <- (ci_adjusted[1] > null_value)
-      rejected_less <- (ci_adjusted[2] < null_value)
+        ci_unadjusted <-
+          utils::tail(x = ci_result[[ci_type]][1,], n = 2)
 
-      if(alternative == "two"){
-        rejected <- rejected_less | rejected_greater
-      } else if(alternative == "les"){
-        rejected <- rejected_less
-      } else if(alternative == "gre"){
-        rejected <- rejected_greater
-      }
-
-      all_ci_results$rejected[j] <- rejected
-
-      if(rejected) {
-        # Decrease Alpha
-        n_rejected <- n_rejected + 1
-        current_max <- min(c(current_alpha, current_max))
-        current_alpha <-
-          current_alpha - c(current_alpha - current_min)/2
-      } else {
-        # Increase Alpha
-        n_fail_to_reject <- n_fail_to_reject + 1
-        current_min <- max(c(current_alpha, current_min))
-        current_alpha <-
-          current_alpha + c(current_max - current_alpha)/2
-      }
-
-      # Evaluate convergence
-      if(j > 1){
-        diff_alpha <- abs(diff(all_ci_results$alpha[c(j - 1, j)]))
-
-        if(n_fail_to_reject > 4 & n_rejected > 4 & diff_alpha <= tolerance) {
-          converged <- TRUE
-          continue <- FALSE
-          boundary <- FALSE
+        if(var_adjust == 1) {
+          ci_adjusted <- ci_unadjusted
+        } else {
+          ci_adjusted <-
+            boot_object$t0[index] +
+            sqrt(var_adjust)*(ci_unadjusted - boot_object$t0[index])
         }
 
-        if(diff_alpha <= tolerance &
-           ((alpha_max - current_alpha) < tolerance |
-            (current_alpha - alpha_min) < tolerance)
-        ){
-          converged <- TRUE
-          continue <- FALSE
-          boundary <- TRUE
+        if(alternative == "les"){
+          ci_adjusted <- c(-Inf, ci_adjusted[2])
+        } else if(alternative == "gre"){
+          ci_adjusted <- c(ci_adjusted[1], Inf)
         }
 
-      }
-      if(j >= max_evaluations){
-        continue <- FALSE
-        warning("Iteration limit reached without convergence.")
-      }
-    }
+        all_ci_results[j, c("lcl", "ucl")] <- ci_adjusted
 
-    if(boundary){
-      boot_p_value <- current_alpha
-    } else {
-      boot_p_value <- min(subset(all_ci_results, rejected)$alpha)
-    }
+        rejected_greater <- (ci_adjusted[1] > null_value)
+        rejected_less <- (ci_adjusted[2] < null_value)
 
-    if(verbose){
-      return(
-        list(
-          boot_p_value = boot_p_value,
-          converged = converged,
-          boot_object = boot_object,
-          ci_method = ci_method,
-          index = index,
-          var_adjust = var_adjust,
-          alpha_max = alpha_max,
-          alpha_min = alpha_min,
-          tolerance = tolerance,
-          max_evaluations = 40,
-          n_evaluations = j,
-          all_ci_results = all_ci_results
+        if(alternative == "two"){
+          rejected <- rejected_less | rejected_greater
+        } else if(alternative == "les"){
+          rejected <- rejected_less
+        } else if(alternative == "gre"){
+          rejected <- rejected_greater
+        }
+
+        all_ci_results$rejected[j] <- rejected
+
+        if(rejected) {
+          # Decrease Alpha
+          n_rejected <- n_rejected + 1
+          current_max <- min(c(current_alpha, current_max))
+          current_alpha <-
+            current_alpha - c(current_alpha - current_min)/2
+        } else {
+          # Increase Alpha
+          n_fail_to_reject <- n_fail_to_reject + 1
+          current_min <- max(c(current_alpha, current_min))
+          current_alpha <-
+            current_alpha + c(current_max - current_alpha)/2
+        }
+
+        # Evaluate convergence
+        if(j > 1){
+          diff_alpha <- abs(diff(all_ci_results$alpha[c(j - 1, j)]))
+
+          if(n_fail_to_reject > 4 & n_rejected > 4 & diff_alpha <= tolerance) {
+            converged <- TRUE
+            continue <- FALSE
+            boundary <- FALSE
+          }
+
+          if(diff_alpha <= tolerance &
+             ((alpha_max - current_alpha) < tolerance |
+              (current_alpha - alpha_min) < tolerance)
+          ){
+            converged <- TRUE
+            continue <- FALSE
+            boundary <- TRUE
+          }
+
+        }
+        if(j >= max_evaluations){
+          continue <- FALSE
+          warning("Iteration limit reached without convergence.")
+        }
+      }
+
+      if(boundary){
+        boot_p_value <- current_alpha
+      } else {
+        boot_p_value <- min(subset(all_ci_results, rejected)$alpha)
+      }
+
+
+
+      if(verbose){
+        return(
+          list(
+            boot_p_value = boot_p_value,
+            converged = converged,
+            boot_object = boot_object,
+            ci_method = ci_method,
+            index = index,
+            var_adjust = var_adjust,
+            alpha_max = alpha_max,
+            alpha_min = alpha_min,
+            tolerance = tolerance,
+            max_evaluations = 40,
+            n_evaluations = j,
+            all_ci_results = all_ci_results
+          )
         )
-      )
-    } else {
-      return(boot_p_value)
+      } else {
+        return(boot_p_value)
+      }
     }
   }

@@ -1,4 +1,4 @@
-#' Format proportions and percentages for presentation
+1+1#' Format proportions and percentages for presentation
 #'
 #' This function is for calculating
 #'
