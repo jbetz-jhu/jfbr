@@ -18,6 +18,7 @@ boot_p_value(
   alpha_min = 10^-5,
   tolerance = 1e-04,
   max_evaluations = 30,
+  asymptotic_extreme_z = TRUE,
   verbose = FALSE
 )
 ```
