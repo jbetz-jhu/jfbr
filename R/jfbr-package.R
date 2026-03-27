@@ -2,6 +2,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom binom binom.confint
+#' @importFrom boot boot
+#' @importFrom boot boot.ci
 #' @importFrom stats anova
 #' @importFrom stats chisq.test
 #' @importFrom stats lm

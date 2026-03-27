@@ -1,23 +1,23 @@
 Package: jfbr
-Title: Miscellaneous R Workflow Functions
+Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: c(
     person("Josh", "Betz", , "jbetz@jhu.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4488-9799"))
   )
-Description: A suite of miscellaneous R functions for an analysis workflow.
+Description: Miscellaneous functions for a statistical workflow.
 License: GPL (>= 3)
-URL: https://jbetz-jhu.github.io/jfbr/
+URL: https://github.com/jbetz-jhu/jfbr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Imports: 
+    binom,
+    boot,
+    table1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Imports: 
-    stats,
-    table1,
-    binom
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true

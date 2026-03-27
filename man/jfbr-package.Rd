@@ -4,14 +4,14 @@
 \name{jfbr-package}
 \alias{jfbr}
 \alias{jfbr-package}
-\title{jfbr: Miscellaneous R Workflow Functions}
+\title{jfbr: What the Package Does (One Line, Title Case)}
 \description{
-A suite of miscellaneous R functions for an analysis workflow.
+Miscellaneous functions for a statistical workflow.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://jbetz-jhu.github.io/jfbr/}
+  \item \url{https://github.com/jbetz-jhu/jfbr}
 }
 
 }
