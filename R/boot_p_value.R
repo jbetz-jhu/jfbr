@@ -30,6 +30,10 @@
 #' assessing convergence
 #' @param max_evaluations A \code{numeric} scalar indicating the maximum number
 #' of iterations to perform
+#' @param asymptotic_extreme_z A \code{logical} scalar, indicating whether a
+#' p-value should be computed assuming asymptotic normality using a Wald Z-score
+#' using \eqn{Z = (\hat{\theta} - \theta_{0})/SE_{B}(\hat{\theta})} where
+#' \eqn{SE_{B}(\hat{\theta})} is the bootstrap standard error.
 #' @param verbose A \code{logical} scalar, indicating whether to only return
 #' the \emph{p}-value (\code{FALSE}: default), or return the results of each
 #' iteration (\code{TRUE})

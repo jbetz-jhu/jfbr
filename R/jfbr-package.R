@@ -10,6 +10,7 @@
 #' @importFrom stats lm
 #' @importFrom stats median
 #' @importFrom stats na.omit
+#' @importFrom stats pnorm
 #' @importFrom stats quantile
 #' @importFrom stats sd
 #' @importFrom stats setNames
