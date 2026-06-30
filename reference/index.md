@@ -8,6 +8,9 @@
 - [`in_text_proportion()`](https://jbetz-jhu.github.io/jfbr/reference/in_text_proportion.md)
   : Format proportions and percentages for presentation
 
+- [`is_whole_number()`](https://jbetz-jhu.github.io/jfbr/reference/is_whole_number.md)
+  : Determine whether numeric elements are whole numbers
+
 - [`jfbr_test`](https://jbetz-jhu.github.io/jfbr/reference/jfbr_test.md)
   : jfbr_test: Example data for testing functions.
 

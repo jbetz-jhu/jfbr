@@ -1,6 +1,10 @@
 # Format proportions and percentages for presentation
 
-This function is for calculating
+This is for formatting proportions, percentages and confidence intervals
+for reporting. Confidence intervals are calculated
+using[binom::binom.confint](https://rdrr.io/pkg/binom/man/binom.confint.html).
+Formatting is performed using
+[table1::round_pad](https://rdrr.io/pkg/table1/man/signif_pad.html).
 
 ## Usage
 
@@ -8,7 +12,7 @@ This function is for calculating
 in_text_proportion(
   x,
   n,
-  output = c("percentage", "proportion")[1],
+  output = c("proportion", "percentage")[1],
   output_format = c("p", "xn", "xp", "xnp")[4],
   digits_proportion = 3,
   digits_percent = 1,
@@ -22,21 +26,26 @@ in_text_proportion(
 
 - x:
 
-  a numeric scalar for the numerator
+  a `numeric` `vector` for the numerator.
 
 - n:
 
-  a numeric scalar for the denominator
+  a `numeric` `vector` for the denominator. If `length(x) > 1` and
+  `length(n) == 1`, the denominator is assumed to be the same for all
+  values of `x`.
 
 - output:
 
   a string specifying the type of output requested: either "percentage"
-  or "proportion"
+  or "proportion". Defaults to proportion.
 
 - output_format:
 
   a string specifying the formatting of the output, which may include
-  the numerator, the denominator, and percentage/proportion
+  the numerator, the denominator, and percentage/proportion: one of
+  `"p"` (proportion only), `"xn"` (numerator and denominator), `"xp"`
+  (numerator and proportion/percentage), or `"xnp"`
+  (numerator/denominator and proportion/percentage)
 
 - digits_proportion:
 
@@ -46,13 +55,13 @@ in_text_proportion(
 - digits_percent:
 
   the digits of precision for percentages (see
-  [`table1::round_pad`](https://rdrr.io/pkg/table1/man/signif_pad.html)).
+  [table1::round_pad](https://rdrr.io/pkg/table1/man/signif_pad.html)).
 
 - ci_method:
 
   a string containing the type of interval estimate to compute, if any.
   See
-  [`?binom::binom.confint`](https://rdrr.io/pkg/binom/man/binom.confint.html).
+  ?[binom::binom.confint](https://rdrr.io/pkg/binom/man/binom.confint.html).
 
 - level:
 
@@ -61,7 +70,7 @@ in_text_proportion(
 - ...:
 
   other arguments passed to
-  [`binom::binom.confint`](https://rdrr.io/pkg/binom/man/binom.confint.html)
+  [binom::binom.confint](https://rdrr.io/pkg/binom/man/binom.confint.html)
 
 ## Value
 
@@ -73,11 +82,11 @@ individual components: otherwise, the result is a string.
 ``` r
 # Calculating percentages
 in_text_proportion(x = 2, n = 10, output_format = "p")
-#> [1] "20.0%"
+#> [1] "0.2"
 in_text_proportion(x = 0, n = 10, output_format = "xp")
-#> [1] "0 (0%)"
+#> [1] "0 (0)"
 in_text_proportion(x = 10, n = 10, output_format = "xnp")
-#> [1] "10/10 (100%)"
+#> [1] "10/10 (1)"
 
 in_text_proportion(x = 2, n = 10, output = "proportion", output_format = "p")
 #> [1] "0.2"
@@ -87,9 +96,9 @@ in_text_proportion(x = 10, n = 10, output = "proportion", output_format = "xnp")
 #> [1] "10/10 (1)"
 
 in_text_proportion(x = 1, n = 1e4, output_format = "xp", digits_percent = 2)
-#> [1] "1 (0.01%)"
+#> [1] "1 (0.00)"
 in_text_proportion(x = 1, n = 1e4, output_format = "xp", digits_percent = 2)
-#> [1] "1 (0.01%)"
+#> [1] "1 (0.00)"
 
 in_text_proportion(x = 0, n = 10, output_format = "p", ci_method = "bayes")
 #> $x
@@ -99,20 +108,26 @@ in_text_proportion(x = 0, n = 10, output_format = "p", ci_method = "bayes")
 #> [1] 10
 #> 
 #> $output
-#> [1] "0%"
+#> [1] "0"
 #> 
 #> $output_ci
-#> [1] "0, 95% CI: 0.0, 17.1)"
+#> [1] " (95% CI: 0.000, 0.171)"
 #> 
 #> $ci
 #>   method x  n       mean lower     upper
 #> 1  bayes 0 10 0.04545455     0 0.1707731
 #> 
-#> $ci_rounded
-#> [1] "0.0"  "17.1"
+#> $lcl_rounded
+#> [1] "0.000"
+#> 
+#> $ucl_rounded
+#> [1] "0.171"
 #> 
 #> $ci_string
-#> [1] "(95% CI: 0.0, 17.1)"
+#> [1] "(95% CI: 0.000, 0.171)"
+#> 
+#> $level
+#> [1] 0.95
 #> 
 in_text_proportion(x = 0, n = 10, output_format = "p", ci_method = "exact")
 #> $x
@@ -122,19 +137,25 @@ in_text_proportion(x = 0, n = 10, output_format = "p", ci_method = "exact")
 #> [1] 10
 #> 
 #> $output
-#> [1] "0%"
+#> [1] "0"
 #> 
 #> $output_ci
-#> [1] "0, 95% CI: 0.0, 30.8)"
+#> [1] " (95% CI: 0.000, 0.308)"
 #> 
 #> $ci
 #>   method x  n mean lower     upper
 #> 1  exact 0 10    0     0 0.3084971
 #> 
-#> $ci_rounded
-#> [1] "0.0"  "30.8"
+#> $lcl_rounded
+#> [1] "0.000"
+#> 
+#> $ucl_rounded
+#> [1] "0.308"
 #> 
 #> $ci_string
-#> [1] "(95% CI: 0.0, 30.8)"
+#> [1] "(95% CI: 0.000, 0.308)"
+#> 
+#> $level
+#> [1] 0.95
 #> 
 ```

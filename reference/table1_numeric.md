@@ -52,6 +52,7 @@ A `vector` of character-formatted results
 ## Examples
 
 ``` r
+
 table1_numeric(
   x = c(1:100, NA),
   quantiles = c(0.05, 0.95)
