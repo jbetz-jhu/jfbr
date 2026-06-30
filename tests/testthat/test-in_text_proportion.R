@@ -2,33 +2,28 @@ test_that(
   desc = "Error handling works appropriately",
   code = {
     expect_error(
-      object = in_text_proportion(x = c(0, 1), n = 1, output_format = "p"),
-      regexp = "Length of x"
-    )
-
-    expect_error(
       object = in_text_proportion(x = 2, n = 1, output_format = "p"),
-      regexp = "Numerator \\(\\d{1,}) is greater than denominator"
+      regexp = "all\\(x <= n\\) must be TRUE"
     )
 
     expect_error(
       object = in_text_proportion(x = -1, n = 1, output_format = "p"),
-      regexp = "Numerator (.*) is negative"
+      regexp = "Element \\d{1,} is not >= 0"
     )
 
     expect_error(
       object = in_text_proportion(x = 0, n = 0, output_format = "p"),
-      regexp = "Denominator (.*) is less than 1"
+      regexp = "Element \\d{1,} is not >= 1"
     )
 
     expect_error(
       object = in_text_proportion(x = 0.1, n = 1, output_format = "p"),
-      regexp = "must be whole numbers"
+      regexp = "not close to an integer"
     )
 
     expect_error(
       object = in_text_proportion(x = 1, n = 1.1, output_format = "p"),
-      regexp = "must be whole numbers"
+      regexp = "not close to an integer"
     )
 
     expect_error(
@@ -39,9 +34,8 @@ test_that(
           output = "something",
           output_format = "p"
         ),
-      regexp = "Output type must be one of"
+      regexp = "'percentage','percent','proportion','probability'"
     )
-
   }
 )
 
@@ -92,6 +86,11 @@ test_that(
 
     expect_no_condition(
       object =
-        in_text_proportion(x = 0, n = 10, output_format = "p", ci_method = "exact")
+        in_text_proportion(
+          x = c(1, 2),
+          n = 10,
+          output_format = "p",
+          ci_method = "exact"
+        )
     )
   })

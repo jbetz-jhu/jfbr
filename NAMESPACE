@@ -2,6 +2,7 @@
 
 export(boot_p_value)
 export(in_text_proportion)
+export(is_whole_number)
 export(stats_apply_rounding_jfbr)
 export(stats_jfbr)
 export(table1_categorical)

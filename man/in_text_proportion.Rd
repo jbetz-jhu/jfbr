@@ -7,7 +7,7 @@
 in_text_proportion(
   x,
   n,
-  output = c("percentage", "proportion")[1],
+  output = c("proportion", "percentage")[1],
   output_format = c("p", "xn", "xp", "xnp")[4],
   digits_proportion = 3,
   digits_percent = 1,
@@ -17,35 +17,42 @@ in_text_proportion(
 )
 }
 \arguments{
-\item{x}{a numeric scalar for the numerator}
+\item{x}{a \code{numeric} \code{vector} for the numerator.}
 
-\item{n}{a numeric scalar for the denominator}
+\item{n}{a \code{numeric} \code{vector} for the denominator. If
+\code{length(x) > 1} and \code{length(n) == 1}, the denominator is assumed
+to be the same for all values of \code{x}.}
 
 \item{output}{a string specifying the type of output requested:
-either "percentage" or "proportion"}
+either "percentage" or "proportion". Defaults to proportion.}
 
 \item{output_format}{a string specifying the formatting of the output,
-which may include the numerator, the denominator, and percentage/proportion}
+which may include the numerator, the denominator, and percentage/proportion:
+one of \code{"p"} (proportion only), \code{"xn"} (numerator and denominator),
+\code{"xp"} (numerator and proportion/percentage), or \code{"xnp"}
+(numerator/denominator and proportion/percentage)}
 
 \item{digits_proportion}{the digits of precision for proportions
 (see \code{table1::round_pad}).}
 
 \item{digits_percent}{the digits of precision for percentages
-(see \code{table1::round_pad}).}
+(see \link[table1:signif_pad]{table1::round_pad}).}
 
 \item{ci_method}{a string containing the type of interval estimate to
-compute, if any. See \code{?binom::binom.confint}.}
+compute, if any. See ?\link[binom:binom.confint]{binom::binom.confint}.}
 
 \item{level}{the confidence/credible interval coefficient}
 
-\item{...}{other arguments passed to \code{binom::binom.confint}}
+\item{...}{other arguments passed to \link[binom:binom.confint]{binom::binom.confint}}
 }
 \value{
 When a CI is computed, the result is a list, containing the output
 and individual components: otherwise, the result is a string.
 }
 \description{
-This function is for calculating
+This is for formatting proportions, percentages and confidence intervals for
+reporting. Confidence intervals are calculated using\link[binom:binom.confint]{binom::binom.confint}.
+Formatting is performed using \link[table1:signif_pad]{table1::round_pad}.
 }
 \examples{
 # Calculating percentages
